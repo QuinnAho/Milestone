@@ -1,251 +1,103 @@
-# AI Task Dashboard — Local-First, Event-Driven Task Manager
+# MILESTONE — Local-First, Event-Driven Task Manager
 
-![AI Task Dashboard](https://img.shields.io/badge/Status-Active-brightgreen) ![Platform](https://img.shields.io/badge/Platform-Desktop-blue) ![Tech](https://img.shields.io/badge/Tech-Electron%20%2B%20React-lightblue)
+![MILESTONE](https://img.shields.io/badge/Status-Active-brightgreen) ![Platform](https://img.shields.io/badge/Platform-Desktop-blue) ![Tech](https://img.shields.io/badge/Tech-Electron%20%2B%20React-lightblue)
 
-A modern desktop application that transforms any repository into an intelligent, event-driven task management system. Built with **Electron + React** and featuring a sleek dark theme, this tool operates entirely locally while providing enterprise-grade task tracking and AI integration.
+A modern desktop application that transforms any repository into a controlled, event-driven task management environment. Built with **Electron + React**, this tool operates entirely locally, combining machine-readable prompts, structured documentation, and project architecture into a cohesive system. It reduces token usage for AI prompts, enforces safety with Git, and provides a clean way to track project implementation and status.
 
-## 🎯 **Vision & Architecture**
+## Vision & Architecture
 
-This system works as a **local-first, event-driven task manager** that sits directly on top of your repo. The desktop app acts as the **control center**: it points at a repository, initializes an `ai/` directory, and listens for user actions like creating tasks, running provider CLIs (OpenAI, Claude, etc.), or triggering QA checks.
+This system works as a **local-first, event-driven task manager** that layers directly over your repository. The desktop app acts as a **control center**: it points to a repository, initializes an `ai/` directory, and listens for user actions such as creating tasks, running provider CLIs (OpenAI, Claude, etc.), or triggering QA checks.
 
-### **Core Architecture**
+The goal is not to replicate a cloud-based issue tracker but to enable **focused, controlled development sessions** (“vibe coding”) where tasks, prompts, and results live in the repo. The web view or snapshot is mainly for higher-level reporting, giving managers or stakeholders a clear project status without requiring them to interact with the dev environment.
 
+### Core Architecture
 ```
 Repository Root/
-├── ai/                           # Task management directory
-│   ├── tasks/                    # Individual task containers
+├── ai/
+│   ├── tasks/                  # Individual task containers
 │   │   └── <task-id>/
-│   │       ├── progress.ndjson   # Append-only event log
-│   │       └── artifacts/        # Run outputs & QA results
-│   ├── milestones/               # Packed milestone archives
+│   │       ├── progress.ndjson # Append-only event log
+│   │       └── artifacts/      # Run outputs & QA results
+│   ├── milestones/             # Archived milestones
 │   │   └── <milestone-name>/
-│   │       ├── <task-id>/        # Archived task data
-│   │       ├── README.md         # Human-readable milestone summary
-│   │       └── manifest.json     # Machine-readable milestone data
-│   ├── progress.json             # Current state snapshot
+│   │       ├── <task-id>/
+│   │       ├── README.md       # Milestone summary
+│   │       └── manifest.json   # Machine-readable data
+│   ├── progress.json           # Computed project snapshot
 │   └── config/
-│       └── providers.json        # AI provider configurations
+│       └── providers.json      # AI provider configurations
 └── [your project files]
 ```
 
-### **Event-Driven Foundation**
+### Event-Driven Foundation
+Every action produces events (e.g., `task.created`, `run.finished`, `qa.result`) that are appended to `progress.ndjson`. The repo itself becomes the database. A small engine consumes these events, builds a state snapshot (`progress.json`), and enforces safety by using Git to whitelist changes and revert anything unexpected.
 
-Every action produces **events** (like `task.created`, `run.finished`, `qa.result`) that are appended to an **append-only log** (`progress.ndjson`), making **the repo itself the database**. A small "engine" service consumes these events, computes a current state snapshot (`progress.json`), and enforces safety by using **Git to whitelist file changes** and revert anything unexpected.
+## Key Features
 
-## 🚀 **Key Features**
+### Clean Desktop UI
+- Professional dark theme with minimal distractions
+- Visual progress indicators and project health status
+- Card-based agile board: Backlog → In Progress → Review → Done
+- Real-time updates driven by repo state
 
-### **🎨 Modern Dark Theme UI**
-- **Sleek Interface**: Professional dark theme with Inter font
-- **Animated Theme Toggle**: Smooth sun/moon scrolling animation
-- **Circular Progress**: Visual completion indicators with color coding
-- **Responsive Design**: Clean card-based layout with proper spacing
+### AI Provider Integration
+- Support for multiple providers (OpenAI, Claude, custom)
+- Dry-run mode to preview AI-generated changes
+- Git-backed safety: automatic rollback of unapproved changes
 
-### **📊 Agile Board Visualization**
-The UI renders state as a **lightweight agile board**, showing tasks across columns:
-- **Backlog** → **In Progress** → **Review** → **Done**
-- **Live Status Indicators**: Green/Yellow/Red project health
-- **Real-time Updates**: Reflects current repository state
-- **Task Management**: Create, track, and organize development tasks
+### Quality Assurance & Safety
+- Automated build/test/lint checks
+- All outputs stored under `artifacts/`
+- Git-based whitelist and rollback protection
 
-### **🤖 AI Provider Integration**
-- **Multi-Provider Support**: OpenAI, Claude, and extensible architecture
-- **Dry Run Mode**: Preview changes before execution
-- **Safety First**: Git-backed change whitelisting and auto-revert
-- **CLI Integration**: Seamless provider command execution
+### Milestone Management
+- Pack completed tasks into versioned milestones
+- AI-generated summaries and machine-readable manifests
+- Clean dashboard by archiving completed work
 
-### **🔍 Quality Assurance**
-- **Automated QA Checks**: Build, test, and lint verification
-- **Audit Trail**: All logs and results saved under `artifacts/`
-- **Safety Enforcement**: Automatic rollback of unexpected changes
+## Development and Usage
 
-## 🏁 **Quick Start**
-
-### **Installation**
+### Installation
 ```bash
-# Clone and install dependencies
 git clone <repository-url>
 cd milestone
 npm install
 ```
 
-### **Development**
+### Development
 ```bash
-# Start development server (Vite + Electron)
 npm run dev
 ```
 
-### Console Streaming (Dev)
-- The Electron main-process logs stream into the renderer via `console:output`.
-- In the devtools console, you can subscribe:
-  - `window.aidash.onConsoleOutput((e) => console.log('[main]', e.level, e.message))`
-- Provider/run output streams over `ai:output`:
-  - `window.aidash.onAIOutput((e) => console.log('[provider]', e.type, e.data))`
-
-### Interactive Provider Sessions
-- Start Claude/Codex interactively in the repo root and stream live logs:
-  - `const { session } = await window.aidash.startProviderInteractive('<repo-path>', { provider: 'claude', prompt: 'Read task from ai/tasks and implement…' })`
-  - `window.aidash.onAIOutput((e) => console.log('[session]', e.session, e.type, e.data))`
-- Send input/approval to the running CLI:
-  - `window.aidash.procWrite(session, 'y\n')`  // approve
-  - `window.aidash.procWrite(session, 'n\n')`  // reject
-  - `window.aidash.procKill(session)`          // terminate
-
-Notes
-- To avoid duplicate logs, the preload ensures only one active `ai:output`/`console:output` listener at a time.
-- ANSI/TTY noise (`[?2004h`, cursor codes) is stripped from streamed logs for readability.
-
-### External PowerShell Mode (Windows)
-- Launch a separate PowerShell window, change directory to the repo, and pipe the prompt to the provider CLI:
-  - `await window.aidash.startProviderExternal('<repo-path>', { provider: 'codex', prompt: 'Read task from ai/tasks and implement…' })`
-- This opens an interactive console you can approve/deny directly in PowerShell.
-- Artifacts (including the prompt) are saved under `artifacts/<task>/TIMESTAMP/`.
-
-### **Production Build**
+### Production Build
 ```bash
-# Build desktop application
 npm run build
 ```
 
-## 🎮 **Using the Application**
+### Using the Application
+1. **Initialize Repository**: Select a repo, create `ai/` directory
+2. **Create Tasks**: Add tasks with descriptive IDs and titles
+3. **Run AI Providers**: Execute prompts, preview or apply changes
+4. **Run QA**: Validate builds/tests/lint automatically
+5. **Pack Milestones**: Archive completed tasks for clean reporting
 
-### **1. Initialize Repository**
-- Launch the desktop app
-- Select your project repository path
-- Click **Initialize** to create the `ai/` directory structure
+## Technical Details
+- **Append-only event logs** for complete history
+- **Computed state snapshots** for fast UI rendering
+- **Git integration** for safety and rollback
+- **Configurable providers** via `ai/config/providers.json`
 
-### **2. Create Tasks**
-- Enter a **Task ID** (e.g., `FEAT-0001`)
-- Add a **descriptive title**
-- Click **Add Task** to create the task container
+## Future Roadmap
+- Optional real-time collaboration (multi-user)
+- Plugin architecture for custom workflows
+- Optional cloud sync for multi-device use
+- Advanced analytics and progress insights
 
-### **3. Run AI Providers**
-- Select provider: **Claude** or **OpenAI**
-- Enter your prompt or requirements
-- Choose **Dry Run** for preview or execute directly
-- Monitor results in the execution log
-
-### **4. Quality Assurance**
-- Click **Run QA** to execute build, test, and lint checks
-- View results in the terminal-style output
-- All artifacts are automatically saved for audit
-
-### **5. Milestone Management**
-Once tasks are completed and reach the **Done** column, you can package them into milestones:
-
-#### **🗂️ Pack Milestone**
-- Enter a **milestone name** (e.g., `v1.0-auth-system`)
-- Click **📦 Pack Milestone** to archive all completed tasks
-- Tasks are moved from `ai/tasks/` to `ai/milestones/<name>/`
-- **AI generates documentation** automatically:
-  - `README.md`: Human-readable milestone summary
-  - `manifest.json`: Machine-readable metadata and task list
-- **Packed tasks disappear** from the dashboard to keep it clean
-
-#### **📂 Load Milestone**
-- Use the **milestone dropdown** to select a previously packed milestone
-- Click **📂 Load** to restore tasks back to the Done column
-- All task data and artifacts are preserved and restored
-- Useful for reviewing past work or continuing related development
-
-#### **📋 Milestone Benefits**
-- **Clean Dashboard**: Completed work doesn't clutter active tasks
-- **Documentation**: AI-generated summaries of what was accomplished
-- **Archival**: Complete preservation of task data and artifacts
-- **Audit Trail**: Machine-readable manifests for compliance and reporting
-- **Flexible**: Load back anytime for reference or continuation
-
-### **6. Track Progress**
-- Monitor the **circular progress indicator** for completion percentage
-- View tasks across the **Kanban board columns**
-- Check **status indicators** (Green/Yellow/Red) for project health
-
-## 🛠 **Technical Details**
-
-### **Event System**
-- **Append-Only Logging**: Immutable event history in `progress.ndjson`
-- **State Snapshots**: Computed views in `progress.json`
-- **Event Types**: `task.created`, `run.started`, `run.finished`, `qa.result`, `task.packed`, `task.restored`, etc.
-
-### **Safety Mechanisms**
-- **Git Integration**: Automatic change tracking and whitelisting
-- **Rollback Protection**: Revert unexpected file modifications
-- **Audit Trail**: Complete history of all operations
-
-### **Provider Architecture**
-- **CLI Integration**: Shell execution within repository context
-- **Extensible Design**: Easy addition of new AI providers
-- **Configuration**: Customizable via `ai/config/providers.json`
-- **Authentication**: Handled by individual provider CLIs
-
-## 🔧 **Configuration**
-
-### **Provider Setup**
-Providers are configured through their respective CLI tools:
-```bash
-# Claude setup
-claude configure
-
-# OpenAI setup
-openai auth login
-```
-
-### **Custom Providers**
-Add new providers by modifying `ai/config/providers.json`:
-```json
-{
-  "providers": {
-    "custom-ai": {
-      "command": "custom-ai-cli",
-      "args": ["--prompt", "{prompt}", "--task", "{taskId}"]
-    }
-  }
-}
-```
-
-## 📁 **Directory Structure**
-
-```
-milestone/
-├── electron/                 # Electron main process
-│   ├── main.js              # Application entry point
-│   └── preload.js           # IPC bridge
-├── renderer/                # React frontend
-│   ├── src/
-│   │   ├── main.jsx         # Main application component
-│   │   └── styles/
-│   │       └── theme.css    # Dark theme styling
-│   ├── index.html           # Application shell
-│   └── vite.config.js       # Vite configuration
-├── src/                     # Core engine
-│   └── engine/
-│       └── api.js           # Task management API
-└── package.json             # Dependencies and scripts
-```
-
-## 🌟 **Future Roadmap**
-
-This **local-first, event-driven** model supports exciting future enhancements:
-
-- **Real-time Collaboration**: Multi-user support while maintaining local-first principles
-- **Plugin Architecture**: Third-party extensions and custom workflows
-- **Cloud Sync**: Optional repository synchronization across devices
-- **Advanced Analytics**: Deep insights into development patterns and productivity
-- **Integration Hub**: Connect with external tools (Jira, GitHub, Slack)
-
-## 🔒 **Privacy & Security**
-
-- **Local-First**: All data stays on your machine
-- **No Central Server**: Complete independence from external services
-- **Git Integration**: Leverages existing version control for safety
-- **Audit Trail**: Complete transparency of all operations
-
-## 📝 **Notes**
-
-- **Git Recommended**: Full safety features require a Git repository
-- **Cross-Platform**: Works on Windows, macOS, and Linux
-- **Zero Configuration**: Works out of the box with sensible defaults
-- **Extensible**: Designed for easy customization and extension
+## Privacy & Security
+- Local-first architecture — no central server
+- All data stays in the repository
+- Full audit trail of operations
 
 ---
 
-**Built with ❤️ for developers who value local-first, event-driven workflows**
+Built for developers who want focus, control, and transparent project status — not a SaaS issue tracker.
