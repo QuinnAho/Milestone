@@ -40,7 +40,10 @@ try {
     startProviderInteractive: (path, payload) => ipcRenderer.invoke('run:provider:interactive:start', path, payload),
     startProviderExternal: (path, payload) => ipcRenderer.invoke('run:provider:external', path, payload),
     procWrite: (sessionId, data) => ipcRenderer.invoke('proc:write', sessionId, data),
-    procKill: (sessionId) => ipcRenderer.invoke('proc:kill', sessionId)
+    procKill: (sessionId) => ipcRenderer.invoke('proc:kill', sessionId),
+    packMilestone: (path, payload) => ipcRenderer.invoke('milestone:pack', path, payload),
+    getAvailableMilestones: (path) => ipcRenderer.invoke('milestone:getAvailable', path),
+    loadMilestone: (path, milestoneName) => ipcRenderer.invoke('milestone:load', path, milestoneName)
   });
   console.log('Successfully exposed aidash API');
 } catch (error) {

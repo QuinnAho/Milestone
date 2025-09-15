@@ -17,6 +17,11 @@ Repository Root/
 │   │   └── <task-id>/
 │   │       ├── progress.ndjson   # Append-only event log
 │   │       └── artifacts/        # Run outputs & QA results
+│   ├── milestones/               # Packed milestone archives
+│   │   └── <milestone-name>/
+│   │       ├── <task-id>/        # Archived task data
+│   │       ├── README.md         # Human-readable milestone summary
+│   │       └── manifest.json     # Machine-readable milestone data
 │   ├── progress.json             # Current state snapshot
 │   └── config/
 │       └── providers.json        # AI provider configurations
@@ -124,7 +129,32 @@ npm run build
 - View results in the terminal-style output
 - All artifacts are automatically saved for audit
 
-### **5. Track Progress**
+### **5. Milestone Management**
+Once tasks are completed and reach the **Done** column, you can package them into milestones:
+
+#### **🗂️ Pack Milestone**
+- Enter a **milestone name** (e.g., `v1.0-auth-system`)
+- Click **📦 Pack Milestone** to archive all completed tasks
+- Tasks are moved from `ai/tasks/` to `ai/milestones/<name>/`
+- **AI generates documentation** automatically:
+  - `README.md`: Human-readable milestone summary
+  - `manifest.json`: Machine-readable metadata and task list
+- **Packed tasks disappear** from the dashboard to keep it clean
+
+#### **📂 Load Milestone**
+- Use the **milestone dropdown** to select a previously packed milestone
+- Click **📂 Load** to restore tasks back to the Done column
+- All task data and artifacts are preserved and restored
+- Useful for reviewing past work or continuing related development
+
+#### **📋 Milestone Benefits**
+- **Clean Dashboard**: Completed work doesn't clutter active tasks
+- **Documentation**: AI-generated summaries of what was accomplished
+- **Archival**: Complete preservation of task data and artifacts
+- **Audit Trail**: Machine-readable manifests for compliance and reporting
+- **Flexible**: Load back anytime for reference or continuation
+
+### **6. Track Progress**
 - Monitor the **circular progress indicator** for completion percentage
 - View tasks across the **Kanban board columns**
 - Check **status indicators** (Green/Yellow/Red) for project health
@@ -134,7 +164,7 @@ npm run build
 ### **Event System**
 - **Append-Only Logging**: Immutable event history in `progress.ndjson`
 - **State Snapshots**: Computed views in `progress.json`
-- **Event Types**: `task.created`, `run.started`, `run.finished`, `qa.result`, etc.
+- **Event Types**: `task.created`, `run.started`, `run.finished`, `qa.result`, `task.packed`, `task.restored`, etc.
 
 ### **Safety Mechanisms**
 - **Git Integration**: Automatic change tracking and whitelisting

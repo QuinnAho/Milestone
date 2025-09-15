@@ -49,18 +49,26 @@ function Home() {
   const [isTerminalExpanded, setIsTerminalExpanded] = useState(false);
   const [pendingApprovals, setPendingApprovals] = useState([]);
   const [aiProvider, setAiProvider] = useState('claude');
+  const [isLoading, setIsLoading] = useState(false);
+  const [milestoneName, setMilestoneName] = useState('');
+  const [milestoneDescription, setMilestoneDescription] = useState('');
+  const [availableMilestones, setAvailableMilestones] = useState([]);
+  const [selectedMilestone, setSelectedMilestone] = useState('');
 
   const init = async () => {
     if (!repo) {
       alert('Please select a repository folder first.');
       return;
     }
+    setIsLoading(true);
     try {
       await window.aidash.initRepo(repo);
       await refresh();
     } catch (error) {
       console.error('Failed to initialize repository:', error);
       alert('Failed to initialize repository. Please check the path and try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -92,6 +100,17 @@ function Home() {
       if (selectedPath) {
         setRepo(selectedPath);
         console.log('Repository path set to:', selectedPath);
+
+        // Automatically refresh after selecting folder
+        setIsLoading(true);
+        try {
+          await refresh(selectedPath);
+        } catch (error) {
+          console.error('Failed to refresh repository data:', error);
+          // Don't show alert for refresh errors as the repo might not be initialized yet
+        } finally {
+          setIsLoading(false);
+        }
       } else {
         console.log('No folder selected');
       }
@@ -100,11 +119,19 @@ function Home() {
       alert('Error opening folder dialog: ' + error.message);
     }
   };
-  const refresh = async () => {
-    if (!repo) return;
-    const s = await window.aidash.getStatus(repo);
-    const b = await window.aidash.getBoard(repo);
+  const refresh = async (repoPath = repo) => {
+    if (!repoPath) return;
+    const s = await window.aidash.getStatus(repoPath);
+    const b = await window.aidash.getBoard(repoPath);
     setStatus(s); setBoard(b);
+
+    // Also load available milestones
+    try {
+      const milestones = await window.aidash.getAvailableMilestones(repoPath);
+      setAvailableMilestones(milestones || []);
+    } catch (error) {
+      console.error('Failed to load milestones:', error);
+    }
   };
   const create = async () => {
     await window.aidash.createTask(repo, { id: taskId, title, description });
@@ -183,7 +210,7 @@ Please implement this task. Look at the current codebase structure and implement
 - Making clean, maintainable changes
 - Ensuring compatibility with existing functionality`;
 
-      addTerminalOutput(`🤖 Starting AI implementation for task: ${task.title}`, 'info');
+      addTerminalOutput(`[AI] Starting implementation for task: ${task.title}`, 'info');
 
       // Add approval for file changes
       const approvalId = Date.now();
@@ -200,18 +227,18 @@ Please implement this task. Look at the current codebase structure and implement
         dry: false
       });
 
-      addTerminalOutput(`✅ AI implementation completed for task: ${task.title}`, 'success');
+      addTerminalOutput(`[SUCCESS] AI implementation completed for task: ${task.title}`, 'success');
       if (res.changed && res.changed.length > 0) {
-        addTerminalOutput(`📁 Files changed: ${res.changed.join(', ')}`, 'info');
+        addTerminalOutput(`[FILES] Changed: ${res.changed.join(', ')}`, 'info');
       }
       if (res.blocked && res.blocked.length > 0) {
-        addTerminalOutput(`🚫 Files blocked: ${res.blocked.join(', ')}`, 'warning');
+        addTerminalOutput(`[BLOCKED] Files blocked: ${res.blocked.join(', ')}`, 'warning');
       }
       setLog(JSON.stringify(res, null, 2));
       await refresh();
     } catch (error) {
       console.error('Failed to send to AI:', error);
-      addTerminalOutput(`❌ AI implementation failed: ${error.message}`, 'error');
+      addTerminalOutput(`[ERROR] AI implementation failed: ${error.message}`, 'error');
       alert('Failed to send to AI: ' + error.message);
     }
   };
@@ -230,7 +257,7 @@ Please review the implementation of this task. Check:
 
 Provide a summary of what was implemented and whether it meets the requirements.`;
 
-      addTerminalOutput(`🔍 Starting AI review for task: ${task.title}`, 'info');
+      addTerminalOutput(`[REVIEW] Starting AI review for task: ${task.title}`, 'info');
 
       // Add approval for running review commands
       const approvalId = Date.now();
@@ -247,15 +274,15 @@ Provide a summary of what was implemented and whether it meets the requirements.
         dry: false
       });
 
-      addTerminalOutput(`✅ AI review completed for task: ${task.title}`, 'success');
+      addTerminalOutput(`[SUCCESS] AI review completed for task: ${task.title}`, 'success');
       if (res.changed && res.changed.length > 0) {
-        addTerminalOutput(`📁 Files changed during review: ${res.changed.join(', ')}`, 'info');
+        addTerminalOutput(`[FILES] Changed during review: ${res.changed.join(', ')}`, 'info');
       }
       setLog(JSON.stringify(res, null, 2));
       await refresh();
     } catch (error) {
       console.error('Failed to run AI review:', error);
-      addTerminalOutput(`❌ AI review failed: ${error.message}`, 'error');
+      addTerminalOutput(`[ERROR] AI review failed: ${error.message}`, 'error');
       alert('Failed to run AI review: ' + error.message);
     }
   };
@@ -280,7 +307,7 @@ Provide a summary of what was implemented and whether it meets the requirements.
 
   const approveAction = (approvalId, approved) => {
     setPendingApprovals(prev => prev.filter(a => a.id !== approvalId));
-    addTerminalOutput(`${approved ? '✅ Approved' : '❌ Rejected'} action`, approved ? 'success' : 'warning');
+    addTerminalOutput(`[${approved ? 'APPROVED' : 'REJECTED'}] Action ${approved ? 'approved' : 'rejected'}`, approved ? 'success' : 'warning');
   };
 
   const toggleTheme = () => {
@@ -333,6 +360,88 @@ Provide a summary of what was implemented and whether it meets the requirements.
     return Math.round((completionScore / totalTasks) * 100);
   };
 
+  const packMilestone = async () => {
+    if (!repo) {
+      alert('Please select a repository first.');
+      return;
+    }
+
+    if (!milestoneName.trim()) {
+      alert('Please enter a milestone name.');
+      return;
+    }
+
+    const doneTasks = board.columns['Done'] || [];
+    if (doneTasks.length === 0) {
+      alert('No completed tasks to pack into milestone.');
+      return;
+    }
+
+    setIsLoading(true);
+    addTerminalOutput(`[MILESTONE] Starting packing: ${milestoneName}`, 'info');
+
+    try {
+      const res = await window.aidash.packMilestone(repo, {
+        name: milestoneName,
+        description: milestoneDescription,
+        tasks: doneTasks,
+        provider: aiProvider
+      });
+
+      addTerminalOutput(`[SUCCESS] Milestone "${milestoneName}" packed successfully`, 'success');
+      addTerminalOutput(`[FILES] Tasks moved to: ai/milestones/${milestoneName}`, 'info');
+      if (res.documentationGenerated) {
+        addTerminalOutput(`[DOCS] Documentation generated`, 'info');
+      }
+
+      setMilestoneName('');
+      setMilestoneDescription('');
+      await refresh();
+      await loadAvailableMilestones();
+    } catch (error) {
+      console.error('Failed to pack milestone:', error);
+      addTerminalOutput(`[ERROR] Failed to pack milestone: ${error.message}`, 'error');
+      alert('Failed to pack milestone: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const loadAvailableMilestones = async () => {
+    if (!repo) return;
+    try {
+      const milestones = await window.aidash.getAvailableMilestones(repo);
+      setAvailableMilestones(milestones || []);
+    } catch (error) {
+      console.error('Failed to load milestones:', error);
+    }
+  };
+
+  const loadMilestone = async () => {
+    if (!selectedMilestone) {
+      alert('Please select a milestone to load.');
+      return;
+    }
+
+    setIsLoading(true);
+    addTerminalOutput(`[MILESTONE] Loading: ${selectedMilestone}`, 'info');
+
+    try {
+      const res = await window.aidash.loadMilestone(repo, selectedMilestone);
+      addTerminalOutput(`[SUCCESS] Milestone "${selectedMilestone}" loaded successfully`, 'success');
+      addTerminalOutput(`[STATS] ${res.tasksLoaded} tasks restored to Done column`, 'info');
+
+      await refresh();
+      setSelectedMilestone('');
+    } catch (error) {
+      console.error('Failed to load milestone:', error);
+      addTerminalOutput(`[ERROR] Failed to load milestone: ${error.message}`, 'error');
+      alert('Failed to load milestone: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="p-4" style={{ minHeight: '100vh' }}>
       <button
@@ -342,47 +451,62 @@ Provide a summary of what was implemented and whether it meets the requirements.
       >
         <div className="theme-icon-container">
           <div className={`theme-icon-scroll ${isDarkTheme ? 'dark' : 'light'}`}>
-            <div className="theme-icon moon-icon">🌙</div>
-            <div className="theme-icon sun-icon">☀️</div>
+            <div className="theme-icon moon-icon">
+              <span className="icon-moon"></span>
+            </div>
+            <div className="theme-icon sun-icon">
+              <span className="icon-sun"></span>
+            </div>
           </div>
         </div>
       </button>
 
-      <div className="ai-provider-selector">
-        <label htmlFor="ai-provider">AI Provider:</label>
-        <select
-          id="ai-provider"
-          value={aiProvider}
-          onChange={(e) => setAiProvider(e.target.value)}
-          className="ai-provider-dropdown"
-        >
-          <option value="claude">Claude</option>
-          <option value="codex">Codex</option>
-          <option value="openai">OpenAI</option>
-        </select>
-      </div>
-
       <header className="mb-4">
-        <h1 className="mb-3">AI Task Dashboard</h1>
         <div className="card">
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center mb-3">
             <input
               placeholder="Repository path or click Browse to select folder"
               value={repo}
               onChange={e=>setRepo(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && repo.trim()) {
+                  init();
+                }
+              }}
               style={{ flex: 1 }}
+              disabled={isLoading}
             />
+            {isLoading && (
+              <div className="loading-spinner" title="Loading...">
+                <div className="spinner"></div>
+              </div>
+            )}
             <button
               onClick={() => {
                 console.log('Browse button clicked - event handler');
                 browseFolder();
               }}
               className="button-secondary"
+              disabled={isLoading}
             >
               Browse
             </button>
-            <button onClick={init}>Initialize</button>
-            <button onClick={refresh} className="button-secondary">Refresh</button>
+            <button onClick={init} disabled={isLoading}>
+              {isLoading ? 'Loading...' : 'Initialize'}
+            </button>
+            <button onClick={refresh} className="button-secondary" disabled={isLoading}>Refresh</button>
+          </div>
+          <div className="flex gap-2 items-center">
+            <label htmlFor="ai-provider" className="ai-provider-label">AI Provider:</label>
+            <select
+              id="ai-provider"
+              value={aiProvider}
+              onChange={(e) => setAiProvider(e.target.value)}
+              className="ai-provider-dropdown-integrated"
+            >
+              <option value="claude">Claude</option>
+              <option value="codex">Codex</option>
+            </select>
           </div>
           {status && (
             <div className="mt-3 flex items-center">
@@ -448,6 +572,63 @@ Provide a summary of what was implemented and whether it meets the requirements.
                 {['Backlog','In Progress','Review','Done'].map(col => (
                   <div key={col} className="board-column">
                     <h4>{col}</h4>
+                    {col === 'Done' && (board.columns?.['Done']?.length > 0 || availableMilestones.length > 0) && (
+                      <div className="milestone-controls mb-3">
+                        {board.columns?.['Done']?.length > 0 && (
+                          <div className="pack-milestone-section">
+                            <input
+                              type="text"
+                              placeholder="Milestone name (e.g., v1.0-auth-system)"
+                              value={milestoneName}
+                              onChange={(e) => setMilestoneName(e.target.value)}
+                              className="milestone-input"
+                              disabled={isLoading}
+                            />
+                            <textarea
+                              placeholder="Milestone description (optional - helps AI generate better documentation)"
+                              value={milestoneDescription}
+                              onChange={(e) => setMilestoneDescription(e.target.value)}
+                              className="milestone-description"
+                              rows={2}
+                              disabled={isLoading}
+                            />
+                            <button
+                              onClick={packMilestone}
+                              className="pack-milestone-btn"
+                              disabled={isLoading || !milestoneName.trim()}
+                              title="Pack all done tasks into milestone"
+                            >
+                              <span className="icon-archive"></span>
+                              Pack Milestone
+                            </button>
+                          </div>
+                        )}
+                        {availableMilestones.length > 0 && (
+                          <div className="load-milestone-section">
+                            <select
+                              value={selectedMilestone}
+                              onChange={(e) => setSelectedMilestone(e.target.value)}
+                              className="milestone-select"
+                              disabled={isLoading}
+                            >
+                              <option value="">Select milestone to load</option>
+                              {availableMilestones.map(milestone => (
+                                <option key={milestone} value={milestone}>{milestone}</option>
+                              ))}
+                            </select>
+                            <button
+                              onClick={loadMilestone}
+                              className="load-milestone-btn"
+                              disabled={isLoading || !selectedMilestone}
+                              title="Load milestone tasks back to Done column"
+                            >
+                              <span className="icon-folder-open"></span>
+                              Load
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
                     <div>
                       {(board.columns?.[col]||[]).map(t => (
                         <div key={t.id} className="task-item">
@@ -478,7 +659,7 @@ Provide a summary of what was implemented and whether it meets the requirements.
                                 onClick={() => sendToAI(t)}
                                 title="Send to AI for implementation"
                               >
-                                🤖
+                                <span className="icon-cpu"></span>
                               </button>
                             )}
                             {col === 'Review' && (
@@ -487,7 +668,7 @@ Provide a summary of what was implemented and whether it meets the requirements.
                                 onClick={() => aiReview(t)}
                                 title="AI Review"
                               >
-                                🔍
+                                <span className="icon-search"></span>
                               </button>
                             )}
                           </div>
@@ -532,7 +713,8 @@ Provide a summary of what was implemented and whether it meets the requirements.
       <div className={`terminal-container ${isTerminalExpanded ? 'expanded' : 'collapsed'}`}>
         <div className="terminal-header" onClick={() => setIsTerminalExpanded(!isTerminalExpanded)}>
           <div className="terminal-title">
-            <span>🖥️ AI Terminal</span>
+            <span className="icon-terminal"></span>
+            <span>Terminal</span>
             <span className="terminal-badge">{terminalOutput.length}</span>
           </div>
           <div className="terminal-controls">

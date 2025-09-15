@@ -165,6 +165,22 @@ ipcMain.handle('run:provider:external', async (_e, repoPath, payload) => {
   return api.startProviderExternal(repoPath, payload);
 });
 
+// Milestone management handlers
+ipcMain.handle('milestone:pack', async (_e, repoPath, payload) => {
+  if (!api) await loadAPI();
+  return api.packMilestone(repoPath, payload);
+});
+
+ipcMain.handle('milestone:getAvailable', async (_e, repoPath) => {
+  if (!api) await loadAPI();
+  return api.getAvailableMilestones(repoPath);
+});
+
+ipcMain.handle('milestone:load', async (_e, repoPath, milestoneName) => {
+  if (!api) await loadAPI();
+  return api.loadMilestone(repoPath, milestoneName);
+});
+
 // Folder picker dialog
 ipcMain.handle('dialog:open-folder', async () => {
   console.log('Folder picker dialog requested');
