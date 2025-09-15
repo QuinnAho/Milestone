@@ -53,11 +53,17 @@ export async function runProviderStreamingReal(repoPath, { taskIdPath, provider,
   if (isGit && !dry) {
     const after = await changedFiles(repoPath);
     changed = after.filter(f => !before.includes(f));
-    const disallowed = changed.filter(f => !isAllowedEdit(f, whitelist));
-    if (disallowed.length) {
-      await revertPaths(repoPath, disallowed);
-      blocked = disallowed;
+
+    // Only revert files if whitelist has specific entries
+    // If whitelist is empty (default), allow all changes
+    if (whitelist && whitelist.length > 0) {
+      const disallowed = changed.filter(f => !isAllowedEdit(f, whitelist));
+      if (disallowed.length) {
+        await revertPaths(repoPath, disallowed);
+        blocked = disallowed;
+      }
     }
+    // If whitelist is empty or doesn't exist, allow all changes (don't revert anything)
   }
 
   return { ok: res.ok, provider: chosen, artifactsDir: path.relative(repoPath, artifactsDir), changed, blocked };

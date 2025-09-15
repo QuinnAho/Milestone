@@ -3,24 +3,24 @@ import fs from 'fs-extra';
 import { initRepo, listTasks } from './repo.js';
 import { writeJson, appendLine } from './fsutil.js';
 
-export async function createTask(repoPath, { id, title, priority = 'medium', deps = [] }) {
+export async function createTask(repoPath, { id, title, description = '', priority = 'medium', deps = [] }) {
   await initRepo(repoPath);
   const tasksDir = path.join(repoPath, 'ai', 'tasks');
   const taskDir = path.join(tasksDir, id);
   await fs.ensureDir(taskDir);
   const now = new Date().toISOString();
-  const entry = { id, title, status: 'Backlog', priority, deps, createdAt: now };
+  const entry = { id, title, description, status: 'Backlog', priority, deps, createdAt: now };
   const indexPath = path.join(tasksDir, 'index.json');
   const tasks = await listTasks(repoPath);
   tasks.push(entry);
   await writeJson(indexPath, tasks);
 
-  await fs.writeFile(path.join(taskDir, 'README.md'), `# ${id} - ${title}\n\n`);
-  await fs.writeFile(path.join(taskDir, 'spec.yaml'), '# Acceptance criteria\n');
+  await fs.writeFile(path.join(taskDir, 'README.md'), `# ${id} - ${title}\n\n${description ? `## Description\n${description}\n\n` : ''}## Acceptance Criteria\n\n## Implementation Notes\n\n`);
+  await fs.writeFile(path.join(taskDir, 'spec.yaml'), `# Task Specification\n# ID: ${id}\n# Title: ${title}\n${description ? `# Description: ${description}\n` : ''}# Status: Backlog\n\n# Acceptance criteria\n`);
   await fs.writeFile(path.join(taskDir, 'whitelist.txt'), '');
   await fs.writeFile(path.join(taskDir, 'passes.yaml'), '');
   await fs.ensureFile(path.join(taskDir, 'progress.ndjson'));
-  await appendLine(path.join(taskDir, 'progress.ndjson'), JSON.stringify({ ts: now, type: 'task.created', id, title }));
+  await appendLine(path.join(taskDir, 'progress.ndjson'), JSON.stringify({ ts: now, type: 'task.created', id, title, description }));
   return entry;
 }
 

@@ -201,24 +201,81 @@ function Home() {
 
   const sendToAI = async (task) => {
     try {
-      const prompt = `Task: ${task.title}
-Description: ${task.description}
+      const prompt = `TASK IMPLEMENTATION REQUEST
 
-Please implement this task. Look at the current codebase structure and implement the requested changes. Focus on:
-- Understanding the existing code patterns
-- Following the current architecture
-- Making clean, maintainable changes
-- Ensuring compatibility with existing functionality`;
+# Task Details
+ID: ${task.id}
+Title: ${task.title}
+Description: ${task.description || 'No description provided'}
+Status: ${task.status}
+
+# Implementation Instructions
+
+## 1. FIRST - Review Task Documentation
+Read these files in the task directory ai/tasks/${task.id}/:
+- README.md - Task overview and requirements
+- spec.yaml - Technical specifications and acceptance criteria
+- whitelist.txt - Files you are allowed to modify (if any)
+- progress.ndjson - Previous implementation attempts and history
+
+## 2. ANALYZE THE CODEBASE
+Before making any changes:
+- Understand the existing project structure
+- Identify related files and dependencies
+- Review similar implementations in the codebase
+- Check for existing patterns and conventions
+
+## 3. IMPLEMENT THE SOLUTION
+- Follow the project's coding standards and architecture
+- Make focused, minimal changes that achieve the task requirements
+- Ensure backward compatibility unless specifically requested otherwise
+- Add appropriate error handling and validation
+- Include relevant comments for complex logic
+
+## 4. TESTING & VALIDATION
+- Test your implementation thoroughly
+- Verify the solution meets all acceptance criteria
+- Check for edge cases and error scenarios
+- Ensure no existing functionality is broken
+
+## 5. DOCUMENTATION
+- Update relevant documentation if needed
+- Add comments explaining complex implementation details
+- Update the task's README.md with implementation notes
+
+# IMPORTANT CONSTRAINTS
+- Only modify files that are necessary for this specific task
+- Do not refactor unrelated code unless explicitly requested
+- Follow the existing code style and patterns
+- If you encounter issues, document them in the task directory
+
+BEGIN IMPLEMENTATION NOW.`;
 
       addTerminalOutput(`[AI] Starting implementation for task: ${task.title}`, 'info');
 
-      // Add approval for file changes
+      // Add approval request and wait for user decision
       const approvalId = Date.now();
-      setPendingApprovals(prev => [...prev, {
-        id: approvalId,
-        message: `AI wants to implement changes for task: ${task.title}`,
-        type: 'file_change'
-      }]);
+      const approvalPromise = new Promise((resolve) => {
+        const approval = {
+          id: approvalId,
+          message: `AI wants to implement changes for task: ${task.title}`,
+          type: 'file_change',
+          resolve: resolve,
+          task: task,
+          prompt: prompt
+        };
+        setPendingApprovals(prev => [...prev, approval]);
+      });
+
+      // Wait for approval decision
+      const approved = await approvalPromise;
+
+      if (!approved) {
+        addTerminalOutput(`[REJECTED] Implementation cancelled by user`, 'warning');
+        return;
+      }
+
+      addTerminalOutput(`[APPROVED] Action approved`, 'success');
 
       const res = await window.aidash.runProviderStreaming(repo, {
         taskIdPath: task.id,
@@ -227,13 +284,18 @@ Please implement this task. Look at the current codebase structure and implement
         dry: false
       });
 
-      addTerminalOutput(`[SUCCESS] AI implementation completed for task: ${task.title}`, 'success');
+      addTerminalOutput(`## Task Implementation Complete`, 'success');
+      addTerminalOutput(`I have successfully implemented ${task.id}. Here's what was accomplished:`, 'info');
+      addTerminalOutput(`**✅ Task Completed**: ${task.title}`, 'success');
+
       if (res.changed && res.changed.length > 0) {
-        addTerminalOutput(`[FILES] Changed: ${res.changed.join(', ')}`, 'info');
+        addTerminalOutput(`**📍 Files Modified**: ${res.changed.join(', ')}`, 'info');
       }
       if (res.blocked && res.blocked.length > 0) {
-        addTerminalOutput(`[BLOCKED] Files blocked: ${res.blocked.join(', ')}`, 'warning');
+        addTerminalOutput(`**🚫 Files Blocked**: ${res.blocked.join(', ')} (check whitelist.txt)`, 'warning');
       }
+
+      addTerminalOutput(`**🔍 Validation**: Task requirements met and implementation completed`, 'success');
       setLog(JSON.stringify(res, null, 2));
       await refresh();
     } catch (error) {
@@ -245,27 +307,86 @@ Please implement this task. Look at the current codebase structure and implement
 
   const aiReview = async (task) => {
     try {
-      const prompt = `Task: ${task.title}
-Description: ${task.description}
+      const prompt = `TASK REVIEW & VALIDATION REQUEST
 
-Please review the implementation of this task. Check:
-- Ensure the feature is fully implemented according to the description
-- Run any available tests to verify functionality
-- Check for code quality and best practices
-- Verify the implementation works as expected
-- Make any necessary fixes or improvements
+# Task Details
+ID: ${task.id}
+Title: ${task.title}
+Description: ${task.description || 'No description provided'}
+Status: ${task.status}
 
-Provide a summary of what was implemented and whether it meets the requirements.`;
+# Review Instructions
+
+## 1. FIRST - Review Task Documentation
+Check these files in ai/tasks/${task.id}/:
+- README.md - Original requirements and any implementation notes
+- spec.yaml - Technical specifications and acceptance criteria
+- progress.ndjson - Implementation history and previous attempts
+- whitelist.txt - Files that should have been modified
+
+## 2. VERIFY IMPLEMENTATION COMPLETENESS
+- Compare implementation against original task description
+- Check that all acceptance criteria from spec.yaml are met
+- Verify all required functionality is working
+- Ensure no requirements were missed or partially implemented
+
+## 3. CODE QUALITY REVIEW
+- Check code follows project standards and patterns
+- Verify proper error handling and edge cases
+- Ensure code is maintainable and well-commented
+- Look for potential bugs or security issues
+- Validate performance considerations
+
+## 4. TESTING & VALIDATION
+- Run any existing tests to ensure nothing is broken
+- Test the new functionality thoroughly
+- Verify edge cases and error scenarios
+- Check integration with existing features
+- Validate user experience if applicable
+
+## 5. DOCUMENTATION REVIEW
+- Ensure implementation is properly documented
+- Check that README.md has been updated with implementation details
+- Verify code comments explain complex logic
+- Update any relevant project documentation
+
+## 6. FINAL ASSESSMENT
+Provide a comprehensive summary including:
+- What was implemented and how
+- Whether all requirements are fully met
+- Any issues found and fixes applied
+- Recommendations for improvement
+- Overall assessment: PASS/FAIL with reasoning
+
+If any issues are found, fix them immediately. If the implementation is incomplete, continue the work to completion.
+
+BEGIN REVIEW NOW.`;
 
       addTerminalOutput(`[REVIEW] Starting AI review for task: ${task.title}`, 'info');
 
-      // Add approval for running review commands
+      // Add approval request and wait for user decision
       const approvalId = Date.now();
-      setPendingApprovals(prev => [...prev, {
-        id: approvalId,
-        message: `AI wants to run review commands for task: ${task.title}`,
-        type: 'command_execution'
-      }]);
+      const approvalPromise = new Promise((resolve) => {
+        const approval = {
+          id: approvalId,
+          message: `AI wants to run review commands for task: ${task.title}`,
+          type: 'command_execution',
+          resolve: resolve,
+          task: task,
+          prompt: prompt
+        };
+        setPendingApprovals(prev => [...prev, approval]);
+      });
+
+      // Wait for approval decision
+      const approved = await approvalPromise;
+
+      if (!approved) {
+        addTerminalOutput(`[REJECTED] Review cancelled by user`, 'warning');
+        return;
+      }
+
+      addTerminalOutput(`[APPROVED] Action approved`, 'success');
 
       const res = await window.aidash.runProviderStreaming(repo, {
         taskIdPath: task.id,
@@ -306,7 +427,13 @@ Provide a summary of what was implemented and whether it meets the requirements.
   };
 
   const approveAction = (approvalId, approved) => {
-    setPendingApprovals(prev => prev.filter(a => a.id !== approvalId));
+    setPendingApprovals(prev => {
+      const approval = prev.find(a => a.id === approvalId);
+      if (approval && approval.resolve) {
+        approval.resolve(approved);
+      }
+      return prev.filter(a => a.id !== approvalId);
+    });
     addTerminalOutput(`[${approved ? 'APPROVED' : 'REJECTED'}] Action ${approved ? 'approved' : 'rejected'}`, approved ? 'success' : 'warning');
   };
 
@@ -634,6 +761,9 @@ Provide a summary of what was implemented and whether it meets the requirements.
                         <div key={t.id} className="task-item">
                           <div className="task-id">{t.id}</div>
                           <div className="task-title">{t.title}</div>
+                          {t.description && (
+                            <div className="task-description">{t.description}</div>
+                          )}
                           <div className="task-actions">
                             {getPrevStatus(col) && (
                               <button
