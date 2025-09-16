@@ -1,5 +1,11 @@
 # MILESTONE — Local-First, Event-Driven Task Manager
 
+<img width="1919" height="989" alt="image" src="https://github.com/user-attachments/assets/ddf56bee-a904-4940-8630-8b7b7c8c086f" />
+
+<img width="1918" height="987" alt="image" src="https://github.com/user-attachments/assets/6d523b99-d679-4fe1-9fb5-1722bea3acfb" />
+
+
+
 ![MILESTONE](https://img.shields.io/badge/Status-Active-brightgreen) ![Platform](https://img.shields.io/badge/Platform-Desktop-blue) ![Tech](https://img.shields.io/badge/Tech-Electron%20%2B%20React-lightblue)
 
 A modern desktop application that transforms any repository into a controlled, event-driven task management environment. Built with **Electron + React**, this tool operates entirely locally, combining machine-readable prompts, structured documentation, and project architecture into a cohesive system. It reduces token usage for AI prompts, enforces safety with Git, and provides a clean way to track project implementation and status.
