@@ -4,6 +4,9 @@
 
 <img width="1918" height="987" alt="image" src="https://github.com/user-attachments/assets/6d523b99-d679-4fe1-9fb5-1722bea3acfb" />
 
+<img width="543" height="264" alt="image" src="https://github.com/user-attachments/assets/26ab23f9-9cc0-4e9d-abf3-feaa8c552059" />
+
+
 
 
 ![MILESTONE](https://img.shields.io/badge/Status-Active-brightgreen) ![Platform](https://img.shields.io/badge/Platform-Desktop-blue) ![Tech](https://img.shields.io/badge/Tech-Electron%20%2B%20React-lightblue)
