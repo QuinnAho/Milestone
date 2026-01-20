@@ -1,0 +1,59 @@
+{
+  "task_id": "TASK_009_task_board_reorder",
+  "title": "Task Board Hint + Reordering",
+  "description": "Enhance the task column so users see guidance about AI workflow priority and can reorder task modules (drag/drop) which also reorders the underlying task folders/index, respecting current_index rules.",
+  "created": "2026-01-12T00:10:00Z",
+  "status": "pending",
+  "priority": "high",
+  "inputs": {
+    "files": [
+      "ai/AI_TASK_MONITOR_CONTRACT.md",
+      "ai/tasks/current_index.json",
+      "docs/feature_workflow.md",
+      "src/ui/src/components/TaskBoard.tsx",
+      "src/ui/src/styles/layout.css",
+      "src/ui/src/hooks/useTasks.ts",
+      "src/server/routes/tasks.ts",
+      "src/server/lib/taskStore.ts",
+      "src/server/server.test.ts"
+    ],
+    "context": [
+      "Task column should show a helper hint near the title: 'AI will work from top to bottom. Move high-priority tasks to the top.'",
+      "Need drag-and-drop (or move controls) to reorder task modules visually; reordering must update filesystem order (folders) or index so future runs respect priority.",
+      "current_index.json rules must be followed when reordering so the active task remains consistent and history/paths stay valid."
+    ]
+  },
+  "outputs": {
+    "expected_files": [
+      "docs/task_reordering.md",
+      "src/ui/src/components/TaskBoard.tsx",
+      "src/ui/src/components/TaskCard.tsx",
+      "src/ui/src/styles/layout.css",
+      "src/ui/src/hooks/useTasks.ts",
+      "src/server/routes/tasks.ts",
+      "src/server/lib/taskStore.ts",
+      "src/server/server.test.ts",
+      "scripts/reorder_tasks.ts"
+    ],
+    "expected_changes": [
+      "UI hint/tool tip added near the 'Tasks' heading explaining top-to-bottom execution and moving high priority items upward.",
+      "Interactive controls (drag-and-drop or move up/down buttons) for the task list; state updates propagate to backend.",
+      "Backend storage + helpers updated to reorder task directories/index without breaking schema (current_index kept accurate).",
+      "Documentation describing reordering workflow, rules, and how it interacts with milestones/current index.",
+      "Automated tests verifying reordering behavior, hint rendering, and compliance with contract rules."
+    ]
+  },
+  "acceptance_criteria": [
+    "Tasks column displays the new hint/tool tip next to the title.",
+    "Users can change task order; UI reflects new order immediately.",
+    "Reordering updates underlying task directory ordering or index in a deterministic way, preserving current_index semantics and not corrupting task modules.",
+    "Docs explain how to reorder and the contract expectations (top-to-bottom execution).",
+    "Tests cover reorder API + UI hook updates."
+  ],
+  "notes": [
+    "Consider storing explicit ordering metadata (e.g., ai/tasks/order.json) instead of renaming folders repeatedly.",
+    "Explicit stacking is the source of truth: humans place high-priority tasks at the top of the list, and the AI executes strictly top-to-bottom rather than auto-selecting based on priority labels.",
+    "Moving tasks should trigger logging so progress.ndjson captures the change if relevant.",
+    "Coordinate with milestone work so milestone ordering remains consistent."
+  ]
+}

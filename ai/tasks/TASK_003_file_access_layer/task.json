@@ -1,0 +1,48 @@
+{
+    "task_id": "TASK_003_file_access_layer",
+    "title": "Implement File Access Layer",
+    "description": "Build a Node-based module that reads/writes task artifacts atomically, enforces read-only mode, and logs filesystem operations.",
+    "created": "2026-01-09T23:45:00Z",
+    "status": "completed",
+    "priority": "high",
+    "inputs": {
+      "files": [
+        "ai/AI_TASK_MONITOR_CONTRACT.md",
+        "docs/requirements_architecture.md",
+        "docs/schema_strategy.md",
+        "ai/TO-DO.md"
+      ],
+      "context": [
+        "Need to isolate local editor write operations from remote read-only access.",
+        "Schema suite requires atomic writes to prevent corrupting JSON/NDJSON artifacts.",
+        "Logging should support auditing for future remote monitor sync."
+      ]
+    },
+    "outputs": {
+      "expected_files": [
+        "src/fs/fileAccess.ts",
+        "src/fs/fileAccess.test.ts",
+        "src/fs/types.ts",
+        "logs/file_access.log (sample or generated)",
+        "docs/file_access_layer.md"
+      ],
+      "expected_changes": [
+        "Exported API supporting read/write/list operations with mode toggles (read-only vs read-write).",
+        "Atomic write helper using temp files + rename plus JSON schema validation hook.",
+        "Structured logging (console + optional file) for each mutation attempt including rejection reason.",
+        "Unit tests simulating concurrent writes and read-only rejection behavior."
+      ]
+    },
+    "acceptance_criteria": [
+      "Unit tests cover successful writes, read-only rejection, and error handling for atomic temp rename flow.",
+      "Module exposes configuration for mode toggles and log sinks; read-only mode never mutates disk.",
+      "Every write path validates payload against schemas before commit.",
+      "Documentation explains API usage and wiring to future REST endpoints.",
+      "All changes logged in progress.ndjson with task references."
+    ],
+    "notes": [
+      "Prefer TypeScript with strict typing; transpilation/build steps defined later.",
+      "Design module so remote monitor can import it in read-only mode without bringing in write dependencies.",
+      "Coordinate with schema validation script for re-use of JSON schema metadata."
+    ]
+  }

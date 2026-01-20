@@ -1,0 +1,60 @@
+{
+  "task_id": "TASK_008_milestone_container",
+  "title": "Add Milestone Containers + QA Gate",
+  "description": "Introduce milestone groupings that wrap multiple task modules, track their completion, and enforce a comprehensive QA review against the contract once every task within the milestone is done. Update the UI to show milestones in the task column with expandable lists of member tasks.",
+  "created": "2026-01-12T00:00:00Z",
+  "status": "pending",
+  "priority": "high",
+  "inputs": {
+    "files": [
+      "ai/AI_TASK_MONITOR_CONTRACT.md",
+      "docs/feature_workflow.md",
+      "docs/structured_prompt_generators.md",
+      "src/server/lib/taskStore.ts",
+      "src/server/routes/tasks.ts",
+      "src/server/routes/logs.ts",
+      "src/ui/src/components/TaskBoard.tsx",
+      "src/ui/src/hooks/useTasks.ts",
+      "src/ui/src/components/TaskDetail.tsx"
+    ],
+    "context": [
+      "Milestones act as containers grouping related task modules.",
+      "When all tasks in a milestone are complete, a QA review checklist must run against contract requirements before the milestone is marked done.",
+      "UI should display milestones in the task sidebar, expandable to reveal their tasks."
+    ]
+  },
+  "outputs": {
+    "expected_files": [
+      "schemas/milestone.json",
+      "ai/milestones/milestone_index.json",
+      "ai/milestones/MILESTONE_###/milestone.json",
+      "docs/milestone_workflow.md",
+      "src/server/routes/milestones.ts",
+      "src/server/lib/milestoneStore.ts",
+      "src/ui/src/components/MilestoneBoard.tsx",
+      "src/ui/src/hooks/useMilestones.ts",
+      "src/ui/src/components/TaskBoard.tsx",
+      "src/server/server.test.ts",
+      "src/tests/run-all-tests.ts"
+    ],
+    "expected_changes": [
+      "New milestone schema + storage format tracking id, title, description, task ids, QA checklist, and status.",
+      "Backend endpoints to list/create/update milestones, validate when all tasks complete, and record QA review.",
+      "UI updates so the sidebar lists milestones; clicking expands underlying tasks, while standalone tasks still appear if unassigned.",
+      "Documentation describing milestone workflow, QA review process, and how it ties to contract sections.",
+      "Tests covering milestone CRUD, auto status updates when tasks complete, and QA gate enforcement."
+    ]
+  },
+  "acceptance_criteria": [
+    "Milestones can be created/updated with metadata + task membership via backend APIs (schema validated).",
+    "When every task in a milestone is marked complete, the system requires a QA review checklist to be filled before setting the milestone to completed.",
+    "UI sidebar displays milestones with expandable task lists, showing completion state for each task and milestone.",
+    "Docs and contract mention milestone/QC workflow, including how remote monitors can verify the QA log.",
+    "Automated tests cover milestone creation, task completion propagation, and QA gate behavior."
+  ],
+  "notes": [
+    "Consider storing milestones under ai/milestones/ to mirror task modules.",
+    "QA review checklist could reuse existing task template semantics (e.g., storing `qa_checklist.md`).",
+    "Keep remote monitor compatibility in mind—milestones should render read-only snapshots."
+  ]
+}

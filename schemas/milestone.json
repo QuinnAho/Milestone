@@ -1,0 +1,196 @@
+{
+  "$id": "https://skill-tree.app/schemas/milestone.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Task Monitor Milestone Definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "milestone_id",
+    "title",
+    "description",
+    "created",
+    "status",
+    "tasks",
+    "qa_review"
+  ],
+  "properties": {
+    "milestone_id": {
+      "type": "string",
+      "pattern": "^MILESTONE_[A-Za-z0-9_\\-]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created": {
+      "type": "string",
+      "minLength": 1,
+      "description": "ISO8601 timestamp preferred"
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Timestamp for the most recent milestone change"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "active",
+        "qa_pending",
+        "qa_in_progress",
+        "blocked",
+        "completed"
+      ]
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ]
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "docs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "task_id",
+          "blocking"
+        ],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "pattern": "^TASK_[A-Za-z0-9_\\-]+$"
+          },
+          "blocking": {
+            "type": "boolean",
+            "default": true,
+            "description": "Indicates if this task must finish before the milestone can advance"
+          },
+          "qa_required": {
+            "type": "boolean",
+            "default": true,
+            "description": "If false, QA checklist can skip this task"
+          },
+          "status_override": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "in_progress",
+              "blocked",
+              "completed"
+            ],
+            "description": "Optional milestone-specific status override for display"
+          },
+          "contract_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "qa_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "checklist_path",
+        "log_path"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_started",
+            "in_progress",
+            "blocked",
+            "completed"
+          ]
+        },
+        "checklist_path": {
+          "type": "string",
+          "pattern": "^ai/milestones/MILESTONE_[A-Za-z0-9_\\-]+/qa_checklist\\.md$"
+        },
+        "log_path": {
+          "type": "string",
+          "pattern": "^ai/milestones/MILESTONE_[A-Za-z0-9_\\-]+/qa_progress\\.ndjson$"
+        },
+        "assigned_to": {
+          "type": "string",
+          "minLength": 1
+        },
+        "started_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "completed_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_contract_sections": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "qa_scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

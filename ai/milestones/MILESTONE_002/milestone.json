@@ -1,0 +1,92 @@
+{
+    "milestone_id":  "MILESTONE_002",
+    "title":  "MVP",
+    "description":  "Tracks every active task required for the AI Task Monitor MVP release.",
+    "created":  "2026-01-18T03:07:13.2336179Z",
+    "status":  "pending",
+    "priority":  "urgent",
+    "owner":  "ai-task-monitor",
+    "links":  {
+                  "docs":  [
+                               "ai/AI_TASK_MONITOR_CONTRACT.md",
+                               "docs/milestone_workflow.md"
+                           ]
+              },
+    "tasks":  [
+                  {
+                      "task_id":  "TASK_008_milestone_container",
+                      "blocking":  true,
+                      "qa_required":  true
+                  },
+                  {
+                      "task_id":  "TASK_007_ndjson_diff_logging",
+                      "blocking":  true,
+                      "qa_required":  true
+                  },
+                  {
+                      "task_id":  "TASK_010_prompt_workspace_refactor",
+                      "blocking":  true,
+                      "qa_required":  true
+                  },
+                  {
+                      "task_id":  "TASK_009_task_board_reorder",
+                      "blocking":  true,
+                      "qa_required":  true
+                  },
+                  {
+                      "task_id":  "TASK_001_requirements_architecture",
+                      "blocking":  true,
+                      "qa_required":  true
+                  },
+                  {
+                      "task_id":  "TASK_002_schema_contract_baseline",
+                      "blocking":  true,
+                      "qa_required":  true
+                  },
+                  {
+                      "task_id":  "TASK_003_file_access_layer",
+                      "blocking":  true,
+                      "qa_required":  true
+                  },
+                  {
+                      "task_id":  "TASK_004_local_editor_backend",
+                      "blocking":  true,
+                      "qa_required":  true
+                  },
+                  {
+                      "task_id":  "TASK_005_local_editor_ui",
+                      "blocking":  true,
+                      "qa_required":  true
+                  },
+                  {
+                      "task_id":  "TASK_006_structured_prompt_generators",
+                      "blocking":  true,
+                      "qa_required":  true
+                  }
+              ],
+    "qa_review":  {
+                      "status":  "not_started",
+                      "checklist_path":  "ai/milestones/MILESTONE_002/qa_checklist.md",
+                      "log_path":  "ai/milestones/MILESTONE_002/qa_progress.ndjson",
+                      "required_contract_sections":  [
+                                                         "Contract §2 Behavioral Contract",
+                                                         "Contract §5 Checklist Protocol",
+                                                         "Contract §10 Validation Requirements"
+                                                     ],
+                      "notes":  "Complete QA once every MVP task reports checklist completion."
+                  },
+    "qa_scope":  [
+                     "All MVP tasks",
+                     "Milestone QA gate",
+                     "NDJSON logging integrity"
+                 ],
+    "acceptance_criteria":  [
+                                "All MVP tasks have [x] checklist lines and passing validations.",
+                                "QA checklist completed with reviewer + timestamp in qa_progress.ndjson.",
+                                "Milestone status moves to completed only after QA review passes."
+                            ],
+    "notes":  [
+                  "Remote monitors rely on milestone_index.json snapshots to view MVP progress.",
+                  "Use scripts/reorder_tasks.ts to adjust MVP scope if task order changes."
+              ]
+}

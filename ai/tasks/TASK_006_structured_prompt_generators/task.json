@@ -1,0 +1,56 @@
+{
+    "task_id": "TASK_006_structured_prompt_generators",
+    "title": "Structured Prompt Generators",
+    "description": "Implement helper workflows that emit validated prompts/checklists from reusable blueprints for Claude/Codex agents, ensuring outputs comply with schemas and logging rules.",
+    "created": "2026-01-10T02:34:00Z",
+    "status": "completed",
+    "priority": "high",
+    "inputs": {
+      "files": [
+        "ai/AI_TASK_MONITOR_CONTRACT.md",
+        "ai/TO-DO.md",
+        "docs/requirements_architecture.md",
+        "docs/schema_strategy.md",
+        "docs/local_editor_backend.md",
+        "docs/local_editor_ui.md",
+        "ai/templates/prompt_template.json"
+      ],
+      "context": [
+        "Prompt generators must power backend/UI workflows while respecting Machine Summary and schema validation rules.",
+        "Blueprint formats should capture checklist, log, and agent-instruction payloads for Claude/Codex usage.",
+        "Outputs need deterministic logging via progress.ndjson and integration with FileAccess-powered routes."
+      ]
+    },
+    "outputs": {
+      "expected_files": [
+        "ai/templates/prompt_blueprints/structured_checklist.json",
+        "ai/templates/prompt_blueprints/agent_instruction.json",
+        "scripts/generate_structured_prompt.ts",
+        "scripts/__tests__/generate_structured_prompt.test.ts",
+        "schemas/prompt_blueprint.json",
+        "docs/structured_prompt_generators.md",
+        "src/server/routes/prompts.ts",
+        "package.json"
+      ],
+      "expected_changes": [
+        "Reusable JSON blueprints describing structured prompts + checklist templates with Machine Summary Blocks.",
+        "TypeScript CLI/module that reads blueprints and emits validated prompt artifacts ready for Claude/Codex.",
+        "Unit/integration tests validating schema compliance, logging, and error handling.",
+        "New prompt blueprint schema and validation wiring to scripts/validate_schemas.mjs.",
+        "Backend route wiring prompt generation for the Local Editor UI, plus docs explaining usage and manual checks.",
+        "Package.json scripts wiring generator/test commands and schema validation hooks."
+      ]
+    },
+    "acceptance_criteria": [
+      "Prompt generator produces Machine Summary compliant artifacts from blueprint definitions and validates them via schemas.",
+      "Generator writes append-only log entries (progress.ndjson) on each invocation, including success/failure context.",
+      "Blueprint schema coverage lives in schemas/ (or equivalent) and passes existing validation commands.",
+      "Backend/UI exposes a documented entry point (CLI command or API route) for invoking the generator with parameters.",
+      "docs/structured_prompt_generators.md captures workflow overview, blueprint format, manual validation/test steps, and integration touchpoints."
+    ],
+    "notes": [
+      "Reuse FileAccess helpers for filesystem writes to avoid duplication.",
+      "Design blueprints to be extensible for multiple agent personas (Codex, Claude) and transport formats.",
+      "Keep prompt text/versioning under ai/templates to simplify future schema migrations."
+    ]
+  }

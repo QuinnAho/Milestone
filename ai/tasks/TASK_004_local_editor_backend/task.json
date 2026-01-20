@@ -1,0 +1,53 @@
+{
+    "task_id": "TASK_004_local_editor_backend",
+    "title": "Local Editor Backend Endpoints",
+    "description": "Build REST endpoints to list tasks, fetch checklists/logs, create tasks from templates, update checklists, and trigger contract/prompt generation using the FileAccess module.",
+    "created": "2026-01-10T00:24:00Z",
+    "status": "completed",
+    "priority": "high",
+    "inputs": {
+      "files": [
+        "ai/AI_TASK_MONITOR_CONTRACT.md",
+        "docs/requirements_architecture.md",
+        "docs/file_access_layer.md",
+        "docs/schema_strategy.md",
+        "ai/TO-DO.md"
+      ],
+      "context": [
+        "FileAccess module now available for atomic filesystem operations",
+        "Schema validation script ensures JSON/NDJSON integrity",
+        "Need to expose REST API for local editor UI"
+      ]
+    },
+    "outputs": {
+      "expected_files": [
+        "src/server/app.ts",
+        "src/server/routes/tasks.ts",
+        "src/server/routes/checklists.ts",
+        "src/server/routes/logs.ts",
+        "src/server/routes/templates.ts",
+        "src/server/routes/contracts.ts",
+        "src/server/server.test.ts",
+        "docs/local_editor_backend.md"
+      ],
+      "expected_changes": [
+        "Express/Next.js Route Handlers implementing CRUD over ai/tasks using FileAccess",
+        "Task creation endpoint leveraging scripts/generate_task_from_template (or equivalent logic)",
+        "Endpoints returning schema validation errors as 4xx payloads with detail",
+        "Integration tests hitting filesystem sandbox via supertest or fetch",
+        "Documentation covering routes, payloads, and error semantics"
+      ]
+    },
+    "acceptance_criteria": [
+      "REST endpoints implemented for list tasks, fetch task detail (checklist + progress), create task, update checklist, append log entry, regenerate contract/prompt.",
+      "All endpoints covered by integration tests simulating filesystem reads/writes with FileAccess.",
+      "Schema validation errors return 400-level responses with descriptive JSON payloads.",
+      "docs/local_editor_backend.md describes API surface (routes, request/response schemas, auth considerations).",
+      "Progress log records backend milestones, and active task status updated upon completion."
+    ],
+    "notes": [
+      "Prefer Express with TypeScript using the existing tsconfig/tooling.",
+      "Reuse FileAccess for all filesystem interactions; no direct fs writes outside the module.",
+      "Plan for eventual remote monitor by supporting read-only mode toggle."
+    ]
+  }

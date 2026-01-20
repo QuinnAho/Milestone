@@ -1,0 +1,12 @@
+[
+  "TASK_008_milestone_container",
+  "TASK_007_ndjson_diff_logging",
+  "TASK_010_prompt_workspace_refactor",
+  "TASK_009_task_board_reorder",
+  "TASK_001_requirements_architecture",
+  "TASK_002_schema_contract_baseline",
+  "TASK_003_file_access_layer",
+  "TASK_004_local_editor_backend",
+  "TASK_005_local_editor_ui",
+  "TASK_006_structured_prompt_generators"
+]

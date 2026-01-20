@@ -1,0 +1,33 @@
+{
+  "task_id": "TASK_TEMPLATE_generic_example",
+  "title": "Generic Task Template",
+  "description": "Template describing how to structure a task module under the AI Task Monitor Contract. Replace fields with project-specific details.",
+  "created": "YYYY-MM-DDTHH:MM:SSZ",
+  "status": "pending",
+  "priority": "medium",
+  "inputs": {
+    "files": [
+      "ai/AI_TASK_MONITOR_CONTRACT.md"
+    ],
+    "context": [
+      "Describe relevant subsystems or constraints here"
+    ]
+  },
+  "outputs": {
+    "expected_files": [
+      "List directories/files expected after task completion"
+    ],
+    "expected_changes": [
+      "Summaries of behavior or tooling changes"
+    ]
+  },
+  "acceptance_criteria": [
+    "Criterion 1",
+    "Criterion 2",
+    "Add more as needed"
+  ],
+  "notes": [
+    "Guidance or reminders for executors",
+    "Every progress.ndjson entry must include a diff payload per docs/log_diff_strategy.md."
+  ]
+}

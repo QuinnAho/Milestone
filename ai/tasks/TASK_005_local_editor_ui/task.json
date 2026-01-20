@@ -1,0 +1,56 @@
+{
+    "task_id": "TASK_005_local_editor_ui",
+    "title": "Local Editor UI",
+    "description": "Implement a React-based UI that surfaces task lists, detail panes, and editors for checklists/logs/contracts, powered by the new backend.",
+    "created": "2026-01-10T02:09:00Z",
+    "status": "completed",
+    "priority": "high",
+    "inputs": {
+      "files": [
+        "ai/AI_TASK_MONITOR_CONTRACT.md",
+        "docs/requirements_architecture.md",
+        "docs/local_editor_backend.md",
+        "docs/file_access_layer.md",
+        "ai/TO-DO.md"
+      ],
+      "context": [
+        "Backend endpoints exposed under /api/* in src/server",
+        "Need React UI with JSON linting and task creation wizard",
+        "Must respect read-only vs write toggles for future remote monitor"
+      ]
+    },
+    "outputs": {
+      "expected_files": [
+        "src/ui/components/TaskBoard.tsx",
+        "src/ui/components/TaskDetail.tsx",
+        "src/ui/components/ChecklistPanel.tsx",
+        "src/ui/components/LogTimeline.tsx",
+        "src/ui/components/ContractEditor.tsx",
+        "src/ui/components/PromptEditor.tsx",
+        "src/ui/pages/App.tsx",
+        "src/ui/hooks/useTasks.ts",
+        "src/ui/hooks/useTaskDetail.ts",
+        "docs/local_editor_ui.md",
+        "public/mock-data.json (if needed for manual testing)"
+      ],
+      "expected_changes": [
+        "Task board view showing status/priority badges sourced from backend",
+        "Detail pane showing task.json summary, editable checklist with `[ ]/[x]` toggles, log timeline, contract/prompt editors",
+        "Task creation wizard tied to POST /api/tasks, with validation before submit",
+        "JSON linting for contract/prompt editors preventing invalid saves",
+        "Manual test script verifying UI flows update underlying files via backend"
+      ]
+    },
+    "acceptance_criteria": [
+      "React UI surfaces task list and detail panes with live data from backend endpoints.",
+      "Checklist toggles and log timeline updates reflect backend responses and append NDJSON entries.",
+      "Task creation wizard successfully creates tasks via API and displays them in the UI.",
+      "Contract/prompt editors validate JSON before sending to backend; invalid payloads blocked client-side.",
+      "docs/local_editor_ui.md documents architecture, components, and manual test script; progress log updated with UI milestones."
+    ],
+    "notes": [
+      "Use Vite or Next.js (client-side only) per repository constraints; prefer Vite + React for speed.",
+      "Consider state management with React Query or SWR; fallback to custom hooks if not adding dependencies.",
+      "Plan for remote monitor by keeping UI read-only toggle ready (no direct file writes from client)."
+    ]
+  }

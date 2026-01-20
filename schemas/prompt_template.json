@@ -1,0 +1,56 @@
+{
+  "$id": "https://skill-tree.app/schemas/prompt_template.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Prompt Template Definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "description",
+    "body",
+    "summary"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "body": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "purpose"
+      ],
+      "properties": {
+        "file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "$id": "https://skill-tree.app/schemas/milestone_index.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Task Monitor Milestone Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "milestones",
+    "last_updated"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1
+    },
+    "last_updated": {
+      "type": "string",
+      "minLength": 1
+    },
+    "milestones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "milestone_id",
+          "task_ids",
+          "status"
+        ],
+        "properties": {
+          "milestone_id": {
+            "type": "string",
+            "pattern": "^MILESTONE_[A-Za-z0-9_\\-]+$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "active",
+              "qa_pending",
+              "qa_in_progress",
+              "blocked",
+              "completed"
+            ]
+          },
+          "qa_status": {
+            "type": "string",
+            "enum": [
+              "not_started",
+              "in_progress",
+              "blocked",
+              "completed"
+            ]
+          },
+          "qa_required": {
+            "type": "boolean",
+            "default": true
+          },
+          "task_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^TASK_[A-Za-z0-9_\\-]+$"
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "unassigned_tasks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^TASK_[A-Za-z0-9_\\-]+$"
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "../../../schemas/prompt_blueprint.json",
+  "blueprint_id": "agent_instruction",
+  "description": "Produces a structured instruction block that onboards an AI agent to the AI Task Monitor contract for a specific deliverable.",
+  "agent": "claude",
+  "summary": {
+    "file": "ai/templates/prompt_blueprints/agent_instruction.json",
+    "purpose": "Blueprint for generating deterministic agent onboarding prompts referencing the execution contract."
+  },
+  "placeholders": [
+    {
+      "name": "task_id",
+      "description": "Identifier for the target task module",
+      "example": "TASK_006_structured_prompt_generators",
+      "required": true
+    },
+    {
+      "name": "deliverable",
+      "description": "Short summary of what the agent must produce",
+      "example": "Add prompt blueprint schema plus generator CLI",
+      "required": true
+    },
+    {
+      "name": "files",
+      "description": "Comma separated list of authoritative files to read before acting",
+      "example": "ai/AI_TASK_MONITOR_CONTRACT.md,docs/schema_strategy.md",
+      "required": true
+    },
+    {
+      "name": "notes",
+      "description": "Any blocking issues, risks, or reminders for this run",
+      "example": "Log to progress.ndjson after each step and avoid touching remote monitor files",
+      "required": false,
+      "default": "Follow contract priorities: correctness > clarity > simplicity."
+    }
+  ],
+  "template": {
+    "id": "prompt_{{task_id}}_agent_instruction",
+    "description": "Agent starter instructions for {{task_id}}",
+    "body": "Role: AI Task Monitor engineering assistant. Deliverable: {{deliverable}}.\nMust read: {{files}}.\nNotes: {{notes}}.\nFollow ai/AI_TASK_MONITOR_CONTRACT.md, execute one checklist step at a time, and log results to progress.ndjson.",
+    "tags": ["agent", "instruction", "task-monitor"],
+    "summary": {
+      "file": "ai/templates/generated/{{task_id}}_agent_instruction.json",
+      "purpose": "Generated agent onboarding prompt for {{task_id}}"
+    }
+  }
+}

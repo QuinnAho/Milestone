@@ -1,0 +1,85 @@
+{
+  "$id": "https://skill-tree.app/schemas/progress_event.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Task Monitor Progress Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ts",
+    "task_id",
+    "event",
+    "status",
+    "agent",
+    "details"
+  ],
+  "properties": {
+    "ts": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^TASK_[A-Za-z0-9_]+$"
+    },
+    "event": {
+      "type": "string",
+      "enum": [
+        "task_started",
+        "step_completed",
+        "step_failed",
+        "acceptance_failed",
+        "task_completed",
+        "blocker_encountered"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "in_progress",
+        "success",
+        "failed",
+        "blocked"
+      ]
+    },
+    "agent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "details": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "diff": {
+      "type": "object",
+      "required": ["summary"],
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 50
+        },
+        "patch": {
+          "type": "string",
+          "maxLength": 4000
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{7,40}$"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../schemas/prompt_blueprint.json",
+  "blueprint_id": "structured_checklist",
+  "description": "Generates a prompt template that instructs Codex/Claude agents to produce ordered checklists for AI Task Monitor work items.",
+  "agent": "codex",
+  "summary": {
+    "file": "ai/templates/prompt_blueprints/structured_checklist.json",
+    "purpose": "Blueprint describing how to emit structured checklist prompts with placeholder substitution."
+  },
+  "placeholders": [
+    {
+      "name": "task_id",
+      "description": "Active task identifier such as TASK_006_structured_prompt_generators",
+      "example": "TASK_010_schema_review",
+      "required": true
+    },
+    {
+      "name": "task_title",
+      "description": "Human readable title for the task or deliverable",
+      "example": "Finalize structured prompt generators",
+      "required": true
+    },
+    {
+      "name": "acceptance_criteria",
+      "description": "Semicolon-separated acceptance criteria or success checks",
+      "example": "CLI writes prompt;Backend exposes API;Tests cover blueprint errors",
+      "required": true
+    },
+    {
+      "name": "context",
+      "description": "Key background notes (files to inspect, risks, references)",
+      "example": "Reference ai/AI_TASK_MONITOR_CONTRACT.md and schema docs",
+      "required": false
+    }
+  ],
+  "template": {
+    "id": "prompt_{{task_id}}_checklist",
+    "description": "Checklist prompt for {{task_title}} ({{task_id}})",
+    "body": "You are the AI Task Monitor assistant. For task {{task_title}} ({{task_id}}) craft an ordered checklist with explicit validation notes. Reference acceptance criteria: {{acceptance_criteria}}. Context: {{context}}. Output Markdown list items that begin with `- [ ]` and include short rationale statements.",
+    "tags": ["checklist", "structured", "task-monitor"],
+    "summary": {
+      "file": "ai/templates/generated/{{task_id}}_checklist_prompt.json",
+      "purpose": "Generated checklist prompt for {{task_title}}"
+    }
+  }
+}

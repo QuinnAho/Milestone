@@ -1,0 +1,71 @@
+{
+  "milestone_id": "MILESTONE_001",
+  "title": "Core Monitoring Alpha",
+  "description": "Bundles the backlog ordering, milestone container plumbing, and logging improvements required before QA gating can launch.",
+  "created": "2026-01-18T02:55:00Z",
+  "status": "pending",
+  "priority": "high",
+  "owner": "ai-task-monitor",
+  "links": {
+    "docs": [
+      "ai/AI_TASK_MONITOR_CONTRACT.md",
+      "docs/milestone_workflow.md"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "TASK_007_ndjson_diff_logging",
+      "blocking": true,
+      "qa_required": true,
+      "contract_refs": [
+        "Contract §6 Logging Protocol"
+      ],
+      "notes": "NDJSON diff logging must exist before QA reviews can audit task moves."
+    },
+    {
+      "task_id": "TASK_008_milestone_container",
+      "blocking": true,
+      "qa_required": true,
+      "contract_refs": [
+        "Contract §3 Source of Truth",
+        "Contract §5 Checklist Protocol"
+      ],
+      "notes": "Introduces milestone scaffolding plus QA gate enforcement."
+    },
+    {
+      "task_id": "TASK_009_task_board_reorder",
+      "blocking": true,
+      "qa_required": true,
+      "contract_refs": [
+        "Contract §3 Source of Truth",
+        "Contract §6 Logging Protocol"
+      ],
+      "notes": "Task order must remain deterministic before milestone QA can rely on board data."
+    }
+  ],
+  "qa_review": {
+    "status": "not_started",
+    "checklist_path": "ai/milestones/MILESTONE_001/qa_checklist.md",
+    "log_path": "ai/milestones/MILESTONE_001/qa_progress.ndjson",
+    "required_contract_sections": [
+      "Contract §2 Behavioral Contract",
+      "Contract §5 Checklist Protocol",
+      "Contract §10 Validation Requirements"
+    ],
+    "notes": "QA reviewer must run checklist once every milestone task reports completion."
+  },
+  "qa_scope": [
+    "Task order + drag UI",
+    "Milestone metadata persistence",
+    "NDJSON logging integrity"
+  ],
+  "acceptance_criteria": [
+    "All blocking tasks show [x] on their checklists and pass npm/schema validation.",
+    "QA checklist completed with reviewer + timestamp and logged via qa_progress.ndjson.",
+    "Milestone record updated to qa_pending/in_progress before final completion."
+  ],
+  "notes": [
+    "Remote monitors consume snapshot of milestone_index.json to render read-only status.",
+    "CLI reorder script must note milestone membership in logs."
+  ]
+}

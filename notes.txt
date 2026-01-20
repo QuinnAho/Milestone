@@ -1,0 +1,36 @@
+I would like for each note on the ndjson there was like a mini line diff implementation to see what was changed maybe commit after each step add to the contract
+
+saved prompts already for created tasks master prompt qa check. from the templates
+
+cluade and codex editor: .claude, .agents
+
+Little claude and codex logos based of what did what task in the progress log
+
+in the progress log, we should have
+
+website shows progress steps and analytics  
+
+After the task module is complete is should keep track of all the files its touched, this might be accomplished and populated automatically woth the code diff feature
+
+after a task module is complete add a task summary.
+
+When reasoning on a task module, say use reasoning model or something similar.
+
+There needs to be an init function, that creates all the templates architecture, you should be able to select the project you want, we should rename the master prompt to something generic
+so that it is the same for all proejcts which needs to my next requirment
+
+everytime we open the software we should perform a check that the json are in the right format and the project has the right arrchtiecture (ai folder) in general, we should try to make things generic and give input parameters for project specifics
+
+when init is used we should also give prompts like task creation qa ect
+
+it should also generate a claude and agents file that just tells to always refer to the central contract so that we keep things in one place
+
+problems, ai likes to forget
+
+great results require great prompting
+
+maybe a markdown viewer of all your docs
+
+investigate the order vs current json
+
+thinking that editing something like the ai contract should also autmatically edit prompts down stream, like task creation prompt, ect ect

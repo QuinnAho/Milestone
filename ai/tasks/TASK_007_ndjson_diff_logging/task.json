@@ -1,0 +1,54 @@
+{
+  "task_id": "TASK_007_ndjson_diff_logging",
+  "title": "Show diffs for progress log notes",
+  "description": "Enhance the progress.ndjson pipeline so that every logged event includes a short code diff summary (or equivalent indicator) of the work performed, giving remote reviewers immediate insight into what changed at each step.",
+  "created": "2026-01-12T00:00:00Z",
+  "status": "completed",
+  "priority": "high",
+  "inputs": {
+    "files": [
+      "ai/AI_TASK_MONITOR_CONTRACT.md",
+      "docs/feature_workflow.md",
+      "docs/structured_prompt_generators.md",
+      "src/server/lib/taskStore.ts",
+      "src/server/routes/logs.ts",
+      "src/tests/run-all-tests.ts",
+      "src/ui/src/components/LogTimeline.tsx"
+    ],
+    "context": [
+      "Each progress.ndjson entry should include a concise diff (git-style or patch summary) for accountability.",
+      "Need to evaluate whether diffs are captured at log time, via git commits after each checklist step, or with an alternative deterministic approach.",
+      "UI and remote monitor views must remain read-only safe while still surfacing the diff preview."
+    ]
+  },
+  "outputs": {
+    "expected_files": [
+      "docs/log_diff_strategy.md",
+      "ai/AI_TASK_MONITOR_CONTRACT.md",
+      "src/server/lib/taskStore.ts",
+      "src/server/routes/logs.ts",
+      "src/prompts/structuredPromptGenerator.ts",
+      "src/ui/src/components/LogTimeline.tsx",
+      "scripts/log_diff_preview.ts"
+    ],
+    "expected_changes": [
+      "Documented approach for attaching deterministic diffs (git commit per step vs inline diff capture) with tradeoffs.",
+      "Backend logging APIs extended to accept/store optional `diff` payload (file list + patch snippet).",
+      "CLI/helpers updated to capture a diff before appending a log entry and to fail if the working tree is dirty unexpectedly.",
+      "UI timeline updated to render diff previews and allow users to expand/collapse detail.",
+      "Additional tests verifying diff capture, serialization, and rendering, plus contract updates describing the requirement."
+    ]
+  },
+  "acceptance_criteria": [
+    "Progress logging APIs and schema support an optional diff payload (files touched, patch summary, or commit reference).",
+    "Automation (CLI/backend) records a deterministic diff snippet for every log entry or clearly links to a commit hash, with documentation of the fallback rules.",
+    "UI/remote monitor views show the diff snippet per entry without exposing write capabilities.",
+    "docs/log_diff_strategy.md explains the workflow, required commands, and how contract/checklists enforce the behavior.",
+    "Contract and associated templates mention the diff requirement so future tasks follow it."
+  ],
+  "notes": [
+    "Prefer lightweight inline diffs (e.g., `git diff --stat` plus focused hunks) to keep NDJSON entries readable.",
+    "If commit-per-step is adopted, document how to auto-generate commit messages and reference them in log entries.",
+    "Coordinate with FileAccess to ensure diff capture happens before writes to avoid race conditions."
+  ]
+}

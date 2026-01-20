@@ -1,0 +1,66 @@
+{
+  "task_id": "TASK_010_prompt_workspace_refactor",
+  "title": "Prompt Workspace Refactor",
+  "description": "Replace the ad-hoc right column tools with a deterministic prompt workspace that lets operators edit the master prompt and craft Continue Development, New Feature/Module, and QA prompts while exposing the middle panel as a canvas for those flows.",
+  "created": "2026-01-17T20:39:00Z",
+  "status": "pending",
+  "priority": "high",
+  "inputs": {
+    "files": [
+      "ai/AI_TASK_MONITOR_CONTRACT.md",
+      "docs/feature_workflow.md",
+      "src/ui/src/pages/App.tsx",
+      "src/ui/src/components/FeaturePlanner.tsx",
+      "src/ui/src/components/ContractEditor.tsx",
+      "src/ui/src/components/PromptEditor.tsx",
+      "src/ui/src/components/TaskDetail.tsx",
+      "src/ui/src/hooks/useTaskDetail.ts",
+      "src/ui/src/styles/layout.css"
+    ],
+    "context": [
+      "Right column should present four deterministic actions: Continue Development, New Feature / Module, QA Pass, and Edit Master Prompt.",
+      "Selecting any action swaps the middle panel into a prompt canvas that shows the structured prompt (top) plus editable inputs/details (bottom) so the operator can tweak and copy the final text.",
+      "Continue Development must surface the full rules/contract reminder prompt with inline editing + save support.",
+      "New Feature / Module flow needs a reusable template (editable) plus a text box for feature details and a generate button that outputs the combined prompt for copy/paste.",
+      "QA Pass flow mirrors the feature flow but focuses on QA/UAT instructions, optionally scoped by modules or areas typed by the operator.",
+      "Edit Master Prompt should expose the canonical prompt body for editing/saving since it drives the automation vision.",
+      "Retire or repurpose the existing FeaturePlanner/ContractEditor/PromptEditor components to align with the new prompt workspace design while keeping only what is necessary for the monitoring vision."
+    ]
+  },
+  "outputs": {
+    "expected_files": [
+      "docs/feature_workflow.md",
+      "src/ui/src/pages/App.tsx",
+      "src/ui/src/components/PromptWorkspace.tsx",
+      "src/ui/src/components/PromptActionTabs.tsx",
+      "src/ui/src/components/PromptCanvas.tsx",
+      "src/ui/src/components/PromptTemplates.ts",
+      "src/ui/src/components/FeaturePlanner.tsx",
+      "src/ui/src/components/ContractEditor.tsx",
+      "src/ui/src/components/PromptEditor.tsx",
+      "src/ui/src/styles/layout.css"
+    ],
+    "expected_changes": [
+      "A consolidated prompt workspace component replaces the legacy right-column panels and drives the prompt canvas state rendered in the middle column.",
+      "Tab/navigation UI for Continue Development, New Feature/Module, QA Pass, and Edit Master Prompt with deterministic templates and editable inputs.",
+      "Prompt canvas view that shows the currently selected template, allows editing/saving, accepts free-form details, and exposes a generated prompt output for copying.",
+      "Persistence or state management for master prompt edits plus any saved template tweaks so future sessions retain adjustments (e.g., via backend endpoints).",
+      "Updated documentation describing how to use the new prompt workspace workflow when guiding AI automation."
+    ]
+  },
+  "acceptance_criteria": [
+    "Right column no longer shows the old Feature Planner / Contract Editor / Prompt Editor stack; it displays the four new actions only.",
+    "Selecting an action focuses the middle column prompt canvas with the relevant template and inputs.",
+    "Operators can modify and save the base Continue Development prompt, master prompt, and QA/new feature templates in place.",
+    "New Feature / Module flow collects feature details, combines them with the editable template, and presents a generated prompt for copying.",
+    "QA flow allows typing affected modules/areas and generates a QA/UAT prompt accordingly.",
+    "Master prompt edits persist (same backend contract) and the UI clearly shows the latest saved version.",
+    "Documentation (feature workflow or similar) reflects the deterministic prompt workspace process."
+  ],
+  "notes": [
+    "Preserve monitoring context (diffs, checklist, progress log) even when the prompt canvas overlays the middle column; the operator should be able to toggle back easily.",
+    "Keep prompt templates version-controlled; consider storing them in src/ui or ai/templates so changes are reviewable.",
+    "Ensure backend routes protect master prompt writes with the same schema/validation used elsewhere.",
+    "Coordinate with eventual automation so actions taken here can later dispatch prompts directly if needed."
+  ]
+}

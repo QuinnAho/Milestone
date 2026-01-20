@@ -1,0 +1,49 @@
+{
+    "task_id": "TASK_002_schema_contract_baseline",
+    "title": "Schema & Contract Baseline",
+    "description": "Finalize AI execution contract content and deliver JSON schemas plus validation hooks for core AI task artifacts.",
+    "created": "2026-01-09T22:25:00Z",
+    "status": "completed",
+    "priority": "high",
+    "inputs": {
+      "files": [
+        "ai/AI_TASK_MONITOR_CONTRACT.md",
+        "docs/requirements_architecture.md",
+        "docs/schema_strategy.md",
+        "docs/risk_log.md",
+        "ai/TO-DO.md"
+      ],
+      "context": [
+        "Contract governance expectations",
+        "Schema strategy decisions (ownership, versioning, validation checkpoints)",
+        "Existing task template structures under ai/templates/"
+      ]
+    },
+    "outputs": {
+      "expected_files": [
+        "ai/AI_TASK_MONITOR_CONTRACT.md",
+        "schemas/task.json",
+        "schemas/current_index.json",
+        "schemas/progress_event.json",
+        "schemas/machine_summary.json",
+        "schemas/prompt_template.json",
+        "scripts/validate_schemas.mjs"
+      ],
+      "expected_changes": [
+        "Contract document updated with Machine Summary Block and aligned terminology",
+        "JSON schemas enforcing structure for tasks, index, progress, and prompt templates",
+        "Validation script hooking into CI/local workflows"
+      ]
+    },
+    "acceptance_criteria": [
+      "AI_TASK_MONITOR_CONTRACT.md stored with Machine Summary Block and reflects finalized contract text.",
+      "Each schema listed above validates current repo files without errors (run via script).",
+      "Validation script exits non-zero on schema failure and is referenced in project docs or package scripts.",
+      "Updates logged in progress.ndjson with events for schema generation and contract finalization."
+    ],
+    "notes": [
+      "Coordinate schema field names with template files to avoid drift.",
+      "Ensure NDJSON schema enforces allowed events per AI Task Monitor Contract.",
+      "Document script usage so CI pipeline work can adopt it next."
+    ]
+  }

@@ -1,0 +1,36 @@
+{
+  "$id": "https://skill-tree.app/schemas/current_index.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Task Monitor Current Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "active_task_id",
+    "task_path",
+    "status",
+    "last_updated"
+  ],
+  "properties": {
+    "active_task_id": {
+      "type": "string",
+      "pattern": "^TASK_[A-Za-z0-9_]+$"
+    },
+    "task_path": {
+      "type": "string",
+      "pattern": "^ai\\/tasks\\/TASK_[A-Za-z0-9_\\-]+$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "in_progress",
+        "blocked",
+        "completed"
+      ]
+    },
+    "last_updated": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
