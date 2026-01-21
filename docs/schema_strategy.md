@@ -1,5 +1,5 @@
 <!-- Machine Summary Block -->
-{"file":"docs/schema_strategy.md","purpose":"Outlines JSON schema coverage, validation checkpoints, and ownership for AI Task Monitor artifacts."}
+{"file":"docs/schema_strategy.md","purpose":"Outlines JSON schema coverage, validation checkpoints, and ownership for Milestone artifacts."}
 
 # Schema Strategy
 
@@ -50,5 +50,5 @@
 3. Evaluate using JSON Schema Draft 2020-12 features for advanced constraints (e.g., regex on checklist steps).
 
 ## 8. References
-- `ai/AI_TASK_MONITOR_CONTRACT.md` (Sections 3 Source of Truth, 4 Machine Summary Blocks, 10 Validation Requirements).
+- `ai/MILESTONE_CONTRACT.md` (Sections 3 Source of Truth, 4 Machine Summary Blocks, 10 Validation Requirements).
 - `ai/TO-DO.md` item 2 Schema & Contract Baseline.

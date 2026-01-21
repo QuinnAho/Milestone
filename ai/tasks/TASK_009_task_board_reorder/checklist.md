@@ -4,7 +4,7 @@
 # Task Checklist: TASK_009_task_board_reorder
 
 ## Pre-execution
-- [x] Review ai/AI_TASK_MONITOR_CONTRACT.md + current_index.json rules to understand ordering expectations
+- [x] Review ai/MILESTONE_CONTRACT.md + current_index.json rules to understand ordering expectations
 - [x] Audit TaskBoard component + useTasks hook to identify current rendering/data flow
 - [x] Decide on storage strategy for task ordering (folder rename vs ordering metadata)
 

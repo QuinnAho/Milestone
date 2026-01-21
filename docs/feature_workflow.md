@@ -20,10 +20,10 @@
     --set task_id=TASK_999_new_feature ^  # determine the next number beforehand
     --set task_title="Describe feature" ^
     --set task_summary="Short summary" ^
-    --set inputs="ai/AI_TASK_MONITOR_CONTRACT.md;docs/..." ^
+    --set inputs="ai/MILESTONE_CONTRACT.md;docs/..." ^
     --set expected_files="docs/foo.md;src/bar.ts" ^
     --set acceptance_criteria="..." ^
-    --set references="ai/AI_TASK_MONITOR_CONTRACT.md" ^
+    --set references="ai/MILESTONE_CONTRACT.md" ^
     --dry-run
   ```
   Capture the CLI output (Feasibility + Task Module Plan) and share it for confirmation.

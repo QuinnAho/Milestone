@@ -1,4 +1,4 @@
-# AI Task Monitor
+# Milestone
 
 Local tooling that helps you create AI tasks, keep context organized, and show clients (or yourself) steady progress using AI-assisted coding. It keeps AI output clean by enforcing guardrails (schemas, checklists, Machine Summary Blocks). A simple React/Vite UI talks to an Express backend so you can maintain the `ai/` folder without touching files manually, and a lightweight "website viewer" mode is planned so clients can monitor progress remotely without write access.
 

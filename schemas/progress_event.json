@@ -1,7 +1,7 @@
 {
   "$id": "https://skill-tree.app/schemas/progress_event.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AI Task Monitor Progress Event",
+  "title": "Milestone Progress Event",
   "type": "object",
   "additionalProperties": false,
   "required": [

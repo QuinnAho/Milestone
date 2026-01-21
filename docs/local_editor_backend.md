@@ -1,5 +1,5 @@
 <!-- Machine Summary Block -->
-{"file":"docs/local_editor_backend.md","purpose":"Describes the Local Editor Backend REST API for the AI Task Monitor project."}
+{"file":"docs/local_editor_backend.md","purpose":"Describes the Local Editor Backend REST API for the Milestone project."}
 
 # Local Editor Backend
 
@@ -22,7 +22,7 @@
 | `GET /api/logs/:taskId` | Returns parsed NDJSON log entries. |
 | `GET /api/templates` | Lists available task templates. |
 | `GET /api/contracts/current` | Returns the current contract markdown text. |
-| `POST /api/contracts/regenerate` | Writes new contract content to `ai/AI_TASK_MONITOR_CONTRACT.md`. |
+| `POST /api/contracts/regenerate` | Writes new contract content to `ai/MILESTONE_CONTRACT.md`. |
 | `GET /api/contracts/prompts` | Fetches the active prompt template JSON. |
 | `POST /api/contracts/prompts` | Stores prompt template JSON validated via `schemas/prompt_template.json`. |
 | `GET /api/prompts/blueprints` | Lists prompt blueprint metadata for the UI’s picker. |

@@ -1,12 +1,12 @@
 <!-- Machine Summary Block -->
-{"file":"ai/TO-DO.md","purpose":"Outlines the prioritized roadmap for AI Task Monitor development."}
+{"file":"ai/TO-DO.md","purpose":"Outlines the prioritized roadmap for Milestone development."}
 
  Requirements & Architecture
       - Actions: Define user roles (local editor, remote observer), enumerate data sources (ai/ files, GitHub
         artifacts), map dual-deployment workflow, choose tech stack (Next.js or similar + API).
       - Acceptance: Written architecture doc referencing both deployments, approved schema strategy, risks logged.
   2. Schema & Contract Baseline
-      - Actions: Finalize AI_TASK_MONITOR_CONTRACT.md, create JSON schemas for task.json, current_index.json,
+      - Actions: Finalize MILESTONE_CONTRACT.md, create JSON schemas for task.json, current_index.json,
         progress.ndjson, Machine Summary blocks, and prompt templates.
       - Acceptance: Schemas validate existing repo files via automated script; contract stored with Machine Summary
         block.

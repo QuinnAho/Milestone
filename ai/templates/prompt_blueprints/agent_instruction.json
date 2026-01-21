@@ -1,7 +1,7 @@
 {
   "$schema": "../../../schemas/prompt_blueprint.json",
   "blueprint_id": "agent_instruction",
-  "description": "Produces a structured instruction block that onboards an AI agent to the AI Task Monitor contract for a specific deliverable.",
+  "description": "Produces a structured instruction block that onboards an AI agent to the Milestone contract for a specific deliverable.",
   "agent": "claude",
   "summary": {
     "file": "ai/templates/prompt_blueprints/agent_instruction.json",
@@ -23,7 +23,7 @@
     {
       "name": "files",
       "description": "Comma separated list of authoritative files to read before acting",
-      "example": "ai/AI_TASK_MONITOR_CONTRACT.md,docs/schema_strategy.md",
+      "example": "ai/MILESTONE_CONTRACT.md,docs/schema_strategy.md",
       "required": true
     },
     {
@@ -37,7 +37,7 @@
   "template": {
     "id": "prompt_{{task_id}}_agent_instruction",
     "description": "Agent starter instructions for {{task_id}}",
-    "body": "Role: AI Task Monitor engineering assistant. Deliverable: {{deliverable}}.\nMust read: {{files}}.\nNotes: {{notes}}.\nFollow ai/AI_TASK_MONITOR_CONTRACT.md, execute one checklist step at a time, and log results to progress.ndjson.",
+    "body": "Role: Milestone engineering assistant. Deliverable: {{deliverable}}.\nMust read: {{files}}.\nNotes: {{notes}}.\nFollow ai/MILESTONE_CONTRACT.md, execute one checklist step at a time, and log results to progress.ndjson.",
     "tags": ["agent", "instruction", "task-monitor"],
     "summary": {
       "file": "ai/templates/generated/{{task_id}}_agent_instruction.json",

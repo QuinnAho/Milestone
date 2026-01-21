@@ -126,7 +126,7 @@ test('appends log entry and regenerates contract', async () => {
 
   const contractResponse = await request(app)
     .post('/api/contracts/regenerate')
-    .send({ content: '<!-- Machine Summary Block -->\n{"file":"ai/AI_TASK_MONITOR_CONTRACT.md","purpose":"Test"}\n\n# Contract' });
+    .send({ content: '<!-- Machine Summary Block -->\n{"file":"ai/MILESTONE_CONTRACT.md","purpose":"Test"}\n\n# Contract' });
   assert.equal(contractResponse.status, 200);
 
   const promptResponse = await request(app)
@@ -197,8 +197,8 @@ async function seedTask(taskId: string) {
     '{"ts":"2026-01-01T00:00:00Z","task_id":"' + taskId + '","event":"task_started","status":"in_progress","agent":"tester","details":"Seed"}\n'
   );
   await ctx.fileAccess.writeText(
-    'ai/AI_TASK_MONITOR_CONTRACT.md',
-    '<!-- Machine Summary Block -->\n{"file":"ai/AI_TASK_MONITOR_CONTRACT.md","purpose":"Contract"}\n\n# Contract'
+    'ai/MILESTONE_CONTRACT.md',
+    '<!-- Machine Summary Block -->\n{"file":"ai/MILESTONE_CONTRACT.md","purpose":"Contract"}\n\n# Contract'
   );
   await ctx.fileAccess.writeJson(
     'ai/templates/prompt_template.json',

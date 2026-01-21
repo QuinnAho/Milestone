@@ -1,13 +1,13 @@
 {
     "task_id": "TASK_001_requirements_architecture",
     "title": "Define Requirements and Architecture Baseline",
-    "description": "Capture roles, data sources, and the dual-deployment workflow, and select the tech stack for the AI Task Monitor per the TODO roadmap.",
+    "description": "Capture roles, data sources, and the dual-deployment workflow, and select the tech stack for the Milestone per the TODO roadmap.",
     "created": "2026-01-09T22:11:00Z",
     "status": "completed",
     "priority": "high",
     "inputs": {
       "files": [
-        "ai/AI_TASK_MONITOR_CONTRACT.md",
+        "ai/MILESTONE_CONTRACT.md",
         "ai/TO-DO.md"
       ],
       "context": [
@@ -38,6 +38,6 @@
     "notes": [
       "Use Machine Summary Blocks on every new Markdown doc produced by this task.",
       "Coordinate with schema owners so the architecture doc aligns with upcoming schema work.",
-      "Keep references to ai/AI_TASK_MONITOR_CONTRACT.md to ensure alignment with the execution contract."
+      "Keep references to ai/MILESTONE_CONTRACT.md to ensure alignment with the execution contract."
     ]
   }

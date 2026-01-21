@@ -31,12 +31,12 @@ npm run ui:build   # Builds the UI for production
 4. **Task detail panel:** Ensure the Progress Log renders above the checklist with the added spacing divider. Toggle a checklist item and confirm both the task list and detail views refresh.
 5. **Feature Planner:** Enter sample inputs, click “Generate Feature Plan,” and confirm the feasibility output plus the proposed task ID render without writing files.
 6. **Prompt Editor:** Use the Blueprint picker to generate content (no persistence) and then click “Save Prompt” to store the template, verifying `ai/templates/prompt_template.json`.
-7. **Contract Editor:** Edit the contract with a valid Machine Summary block, save, and confirm `ai/AI_TASK_MONITOR_CONTRACT.md` updates. Reload the UI to ensure the latest state loads.
+7. **Contract Editor:** Edit the contract with a valid Machine Summary block, save, and confirm `ai/MILESTONE_CONTRACT.md` updates. Reload the UI to ensure the latest state loads.
 
 Document any discrepancies in ai/tasks/TASK_005_local_editor_ui/progress.ndjson before marking the task complete.
 
 ## 5. Manual Verification (2026-01-12)
 - `npm --prefix src/ui run build` succeeds, confirming the Vite bundle plus TypeScript project compile without errors.
 - Backend flows exercised in a CLI-only environment via `npx tsx` script that used the production FileAccess module to create a temporary task (`TASK_500_ui_demo`), toggle its checklist, and append a progress entry—mirroring the UI checklist interactions.
-- The same script issued write/read cycles against `ai/AI_TASK_MONITOR_CONTRACT.md` and `ai/templates/prompt_template.json`, validating that the editors can persist content through backend routes without schema errors.
+- The same script issued write/read cycles against `ai/MILESTONE_CONTRACT.md` and `ai/templates/prompt_template.json`, validating that the editors can persist content through backend routes without schema errors.
 - Temporary artifacts created during the verification run were removed after confirming backend file updates, leaving the repository clean.

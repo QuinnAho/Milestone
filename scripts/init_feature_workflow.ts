@@ -8,11 +8,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MASTER_PROMPT_SEED = {
   $schema: '../../schemas/prompt_template.json',
   id: 'prompt_task_creation_v1',
-  description: 'Master prompt for AI Task Monitor agents that enforces feasibility-first analysis before any implementation.',
+  description: 'Master prompt for Milestone agents that enforces feasibility-first analysis before any implementation.',
   body:
-    'You are the AI Task Monitor engineering assistant operating under ai/AI_TASK_MONITOR_CONTRACT.md.\n\n' +
+    'You are the Milestone engineering assistant operating under ai/MILESTONE_CONTRACT.md.\n\n' +
     'Core references:\n' +
-    '- ai/AI_TASK_MONITOR_CONTRACT.md (behavioral contract)\n' +
+    '- ai/MILESTONE_CONTRACT.md (behavioral contract)\n' +
     '- docs/requirements_architecture.md (roles + dual deployment)\n' +
     '- docs/schema_strategy.md (validation + schemas)\n' +
     '- docs/file_access_layer.md (read/write rules)\n' +
@@ -63,7 +63,7 @@ const TASK_CREATION_SEED = {
     {
       name: 'inputs',
       description: 'Key inputs/context (files to inspect, stakeholders, constraints)',
-      example: 'ai/AI_TASK_MONITOR_CONTRACT.md;docs/requirements_architecture.md',
+      example: 'ai/MILESTONE_CONTRACT.md;docs/requirements_architecture.md',
       required: true
     },
     {
@@ -81,16 +81,16 @@ const TASK_CREATION_SEED = {
     {
       name: 'references',
       description: 'Contract or guideline references the agent must obey',
-      example: 'ai/AI_TASK_MONITOR_CONTRACT.md;docs/schema_strategy.md',
+      example: 'ai/MILESTONE_CONTRACT.md;docs/schema_strategy.md',
       required: false,
-      default: 'ai/AI_TASK_MONITOR_CONTRACT.md'
+      default: 'ai/MILESTONE_CONTRACT.md'
     }
   ],
   template: {
     id: 'prompt_{{task_id}}_task_creation',
     description: 'Task creation + decomposition prompt for {{task_title}} ({{task_id}})',
     body:
-      'You are the AI Task Monitor assistant orchestrating new work. Every action must honor ai/AI_TASK_MONITOR_CONTRACT.md and the Master Prompt workflow.\n\n' +
+      'You are the Milestone assistant orchestrating new work. Every action must honor ai/MILESTONE_CONTRACT.md and the Master Prompt workflow.\n\n' +
       'Task request context:\n' +
       '- Task ID: {{task_id}}\n' +
       '- Title: {{task_title}}\n' +

@@ -7,7 +7,7 @@
     "priority": "high",
     "inputs": {
       "files": [
-        "ai/AI_TASK_MONITOR_CONTRACT.md",
+        "ai/MILESTONE_CONTRACT.md",
         "docs/requirements_architecture.md",
         "docs/schema_strategy.md",
         "docs/risk_log.md",
@@ -21,7 +21,7 @@
     },
     "outputs": {
       "expected_files": [
-        "ai/AI_TASK_MONITOR_CONTRACT.md",
+        "ai/MILESTONE_CONTRACT.md",
         "schemas/task.json",
         "schemas/current_index.json",
         "schemas/progress_event.json",
@@ -36,14 +36,14 @@
       ]
     },
     "acceptance_criteria": [
-      "AI_TASK_MONITOR_CONTRACT.md stored with Machine Summary Block and reflects finalized contract text.",
+      "MILESTONE_CONTRACT.md stored with Machine Summary Block and reflects finalized contract text.",
       "Each schema listed above validates current repo files without errors (run via script).",
       "Validation script exits non-zero on schema failure and is referenced in project docs or package scripts.",
       "Updates logged in progress.ndjson with events for schema generation and contract finalization."
     ],
     "notes": [
       "Coordinate schema field names with template files to avoid drift.",
-      "Ensure NDJSON schema enforces allowed events per AI Task Monitor Contract.",
+      "Ensure NDJSON schema enforces allowed events per Milestone Contract.",
       "Document script usage so CI pipeline work can adopt it next."
     ]
   }

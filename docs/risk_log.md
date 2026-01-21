@@ -1,5 +1,5 @@
 <!-- Machine Summary Block -->
-{"file":"docs/risk_log.md","purpose":"Tracks risks and mitigations for requirements and architecture decisions of the AI Task Monitor."}
+{"file":"docs/risk_log.md","purpose":"Tracks risks and mitigations for requirements and architecture decisions of the Milestone."}
 
 # Risk Log
 

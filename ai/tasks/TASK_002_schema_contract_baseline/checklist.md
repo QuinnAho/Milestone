@@ -5,11 +5,11 @@
 
 ## Pre-execution
 - [x] Read task.json, acceptance criteria, docs/requirements_architecture.md, docs/schema_strategy.md, and ai/TO-DO.md item 2
-- [x] Review current ai/AI_TASK_MONITOR_CONTRACT.md content and confirm sections needing updates
+- [x] Review current ai/MILESTONE_CONTRACT.md content and confirm sections needing updates
 - [x] Inventory template files (ai/templates/*) and existing task directories to understand schema targets
 
 ## Execution
-- [x] Update ai/AI_TASK_MONITOR_CONTRACT.md with Machine Summary Block and finalized language
+- [x] Update ai/MILESTONE_CONTRACT.md with Machine Summary Block and finalized language
 - [x] Draft JSON schema for task modules (`schemas/task.json`) covering metadata, enums, and acceptance criteria
 - [x] Draft JSON schema for current index (`schemas/current_index.json`) enforcing task path consistency
 - [x] Draft JSON schema for NDJSON events (`schemas/progress_event.json`) with allowed event/status enums

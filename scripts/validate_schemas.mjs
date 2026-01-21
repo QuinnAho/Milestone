@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Lightweight schema validation runner for AI Task Monitor artifacts.
+ * Lightweight schema validation runner for Milestone artifacts.
  * Supports a limited subset of JSON Schema keywords used in this repository.
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';

@@ -29,7 +29,7 @@ export function createFeatureRouter(fileAccess: FileAccess) {
           inputs: payload.inputs,
           expected_files: payload.expectedFiles,
           acceptance_criteria: payload.acceptanceCriteria,
-          references: payload.references ?? 'ai/AI_TASK_MONITOR_CONTRACT.md'
+          references: payload.references ?? 'ai/MILESTONE_CONTRACT.md'
         },
         persist: false,
         logEvent: false

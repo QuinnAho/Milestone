@@ -4,7 +4,7 @@
 # Task Checklist: TASK_010_prompt_workspace_refactor
 
 ## Pre-execution
-- [x] Review ai/AI_TASK_MONITOR_CONTRACT.md and docs/feature_workflow.md to restate the deterministic prompt workflow goals
+- [x] Review ai/MILESTONE_CONTRACT.md and docs/feature_workflow.md to restate the deterministic prompt workflow goals
 - [x] Audit existing right-column components (FeaturePlanner, ContractEditor, PromptEditor) plus App layout state flow to understand current data dependencies
 - [x] Draft the UX/system outline for the Prompt Workspace (tabs, prompt canvas behavior, persistence requirements) and validate it with stakeholders
 

@@ -17,7 +17,7 @@ const ctx: TestContext = {
 };
 
 beforeEach(() => {
-  ctx.rootDir = mkdtempSync(path.join(tmpdir(), 'ai-task-monitor-'));
+  ctx.rootDir = mkdtempSync(path.join(tmpdir(), 'Milestone-'));
   ctx.validatorCalls = [];
 });
 

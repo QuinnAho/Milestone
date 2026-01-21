@@ -4,7 +4,7 @@
 # Task Checklist: TASK_001_requirements_architecture
 
 ## Pre-execution
-- [x] Read task.json, acceptance criteria, and ai/AI_TASK_MONITOR_CONTRACT.md for alignment
+- [x] Read task.json, acceptance criteria, and ai/MILESTONE_CONTRACT.md for alignment
 - [x] Review ai/TO-DO.md item 1 requirements plus any existing architectural notes
 - [x] Outline document targets (requirements & architecture, schema strategy, risk log) and confirm docs/ path
 
@@ -19,7 +19,7 @@
 
 ## Validation
 - [x] Verify each new Markdown doc begins with a Machine Summary Block and references source requirements
-- [x] Ensure architecture + schema docs cite ai/AI_TASK_MONITOR_CONTRACT.md sections and dual deployment constraints
+- [x] Ensure architecture + schema docs cite ai/MILESTONE_CONTRACT.md sections and dual deployment constraints
 - [x] Review acceptance criteria and confirm all deliverables exist in docs/ with consistent status metadata
 
 ## Completion

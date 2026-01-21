@@ -7,7 +7,7 @@
   "priority": "high",
   "inputs": {
     "files": [
-      "ai/AI_TASK_MONITOR_CONTRACT.md",
+      "ai/MILESTONE_CONTRACT.md",
       "ai/tasks/current_index.json",
       "docs/feature_workflow.md",
       "src/ui/src/components/TaskBoard.tsx",

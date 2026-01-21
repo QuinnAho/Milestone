@@ -1,5 +1,5 @@
 <!-- Machine Summary Block -->
-{"file":"docs/milestone_workflow.md","purpose":"Defines the deterministic milestone lifecycle, QA gate, and storage artifacts for AI Task Monitor."}
+{"file":"docs/milestone_workflow.md","purpose":"Defines the deterministic milestone lifecycle, QA gate, and storage artifacts for Milestone."}
 
 # Milestone Workflow
 

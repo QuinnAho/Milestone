@@ -3,7 +3,7 @@
 
 # Task Reordering Protocol
 
-The AI Task Monitor executes work strictly from the top of the task column to the bottom. Priority labels are informative, but **`ai/tasks/order.json`** is the single source of truth for execution order. This file is synced automatically whenever the UI or CLI reorders tasks, and it is versioned in git so reviewers can audit priority changes.
+The Milestone executes work strictly from the top of the task column to the bottom. Priority labels are informative, but **`ai/tasks/order.json`** is the single source of truth for execution order. This file is synced automatically whenever the UI or CLI reorders tasks, and it is versioned in git so reviewers can audit priority changes.
 
 ## 1. Data Sources
 - `ai/tasks/order.json`: ordered array of task IDs (e.g., `["TASK_009...", "TASK_008...", ...]`). The backend reuses this list for `/api/tasks`, and syncing the file ensures remote monitors see the same order.

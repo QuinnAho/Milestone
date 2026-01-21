@@ -4,7 +4,7 @@
 # Task Checklist: TASK_004_local_editor_backend
 
 ## Pre-execution
-- [x] Read task.json, acceptance criteria, ai/AI_TASK_MONITOR_CONTRACT.md, docs/requirements_architecture.md, docs/schema_strategy.md, docs/file_access_layer.md
+- [x] Read task.json, acceptance criteria, ai/MILESTONE_CONTRACT.md, docs/requirements_architecture.md, docs/schema_strategy.md, docs/file_access_layer.md
 - [x] Review FileAccess API and generator script usage patterns
 - [x] Confirm `src/server/` structure, testing strategy (supertest), and dependency requirements
 

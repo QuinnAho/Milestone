@@ -4,7 +4,7 @@
 # Task Checklist: TASK_003_file_access_layer
 
 ## Pre-execution
-- [x] Read task.json, acceptance criteria, ai/AI_TASK_MONITOR_CONTRACT.md, docs/requirements_architecture.md, and docs/schema_strategy.md
+- [x] Read task.json, acceptance criteria, ai/MILESTONE_CONTRACT.md, docs/requirements_architecture.md, and docs/schema_strategy.md
 - [x] Review schemas under /schemas to understand validation targets
 - [x] Decide on project structure for src/fs module and confirm directories exist
 

@@ -7,7 +7,7 @@
     "priority": "high",
     "inputs": {
       "files": [
-        "ai/AI_TASK_MONITOR_CONTRACT.md",
+        "ai/MILESTONE_CONTRACT.md",
         "ai/TO-DO.md",
         "docs/requirements_architecture.md",
         "docs/schema_strategy.md",

@@ -7,7 +7,7 @@
   "priority": "high",
   "inputs": {
     "files": [
-      "ai/AI_TASK_MONITOR_CONTRACT.md",
+      "ai/MILESTONE_CONTRACT.md",
       "docs/feature_workflow.md",
       "docs/structured_prompt_generators.md",
       "src/server/lib/taskStore.ts",

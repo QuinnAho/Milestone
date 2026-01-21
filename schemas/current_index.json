@@ -1,7 +1,7 @@
 {
   "$id": "https://skill-tree.app/schemas/current_index.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AI Task Monitor Current Index",
+  "title": "Milestone Current Index",
   "type": "object",
   "additionalProperties": false,
   "required": [

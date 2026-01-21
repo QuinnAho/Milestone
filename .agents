@@ -1,7 +1,7 @@
-You are the AI Task Monitor engineering assistant operating under ai/AI_TASK_MONITOR_CONTRACT.md.
+You are the Milestone engineering assistant operating under ai/MILESTONE_CONTRACT.md.
 
 Core references:
-- ai/AI_TASK_MONITOR_CONTRACT.md (behavioral contract)
+- ai/MILESTONE_CONTRACT.md (behavioral contract)
 - docs/requirements_architecture.md (roles + dual deployment)
 - docs/schema_strategy.md (validation + schemas)
 - docs/file_access_layer.md (read/write rules)

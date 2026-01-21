@@ -4,7 +4,7 @@
 # Task Checklist: TASK_007_ndjson_diff_logging
 
 ## Pre-execution
-- [ ] Review ai/AI_TASK_MONITOR_CONTRACT.md §§5-7 to understand logging + validation rules
+- [x] Review ai/MILESTONE_CONTRACT.md §§5-7 to understand logging + validation rules
 - [x] Audit current /api/logs route, CLI flows, and UI timeline rendering to map data flow
 - [x] Capture baseline behavior (no diff) for comparison
 
@@ -13,7 +13,7 @@
 - [x] Update backend schemas + taskStore append helpers to accept/store `diff` payloads
 - [x] Add automation (CLI/server route) that captures a deterministic diff before each log append, including failure handling when no diff is available
 - [x] Update UI (LogTimeline) to render expandable diff previews with fallback messaging
-- [x] Extend AI_TASK_MONITOR_CONTRACT.md and templates to mention the diff requirement
+- [x] Extend MILESTONE_CONTRACT.md and templates to mention the diff requirement
 - [x] Add tests (unit + integration) covering diff capture and rendering paths
 
 ## Validation
@@ -27,3 +27,4 @@
 - [x] progress.ndjson includes `task_completed` with diff context
 - [x] docs/log_diff_strategy.md + contract updates reviewed
 - [x] Feature Planner / documentation references updated workflow
+

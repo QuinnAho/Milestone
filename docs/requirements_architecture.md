@@ -1,10 +1,10 @@
 <!-- Machine Summary Block -->
-{"file":"docs/requirements_architecture.md","purpose":"Defines requirements, user roles, data sources, and architecture decisions for dual deployments of the AI Task Monitor."}
+{"file":"docs/requirements_architecture.md","purpose":"Defines requirements, user roles, data sources, and architecture decisions for dual deployments of the Milestone."}
 
 # Requirements & Architecture Baseline
 
 ## 1. Overview
-- **Goal:** Align local editor and remote monitor deployments under the AI Task Monitor Contract.
+- **Goal:** Align local editor and remote monitor deployments under the Milestone Contract.
 - **Scope:** Define user roles, enumerate data sources, describe dual-deployment workflow, and select an initial technology stack enabling deterministic file management plus read-only publishing.
 
 ## 2. Personas & Responsibilities
@@ -25,7 +25,7 @@
 | `ai/tasks/*/checklist.md` | Ordered steps with `[ ]/[x]` | Read/Write (local editor), Read (remote) | Local editor | Requires Machine Summary Block. |
 | `ai/tasks/*/progress.ndjson` | Append-only log | Append (local editor), Read (remote) | Local editor | No rewrites; only append. |
 | `ai/tasks/current_index.json` | Active task pointer | Write (local editor), Read (remote & CI) | Local editor | Drives dashboard default view. |
-| `ai/AI_TASK_MONITOR_CONTRACT.md` | Behavioral contract | Read for all, occasional write by maintainers | Contract owner | Drives governance. |
+| `ai/MILESTONE_CONTRACT.md` | Behavioral contract | Read for all, occasional write by maintainers | Contract owner | Drives governance. |
 | GitHub artifact `ai-snapshot` | Exported `ai/` tree + docs | Read for remote monitor | CI | Immutable snapshot. |
 
 ## 4. Dual-Deployment Workflow
@@ -67,5 +67,5 @@
 4. Draft onboarding docs referencing this architecture.
 
 ## 9. References
-- `ai/AI_TASK_MONITOR_CONTRACT.md` (Sections 3-12) for governance, machine summary rules, and deployment constraints.
+- `ai/MILESTONE_CONTRACT.md` (Sections 3-12) for governance, machine summary rules, and deployment constraints.
 - `ai/TO-DO.md` item 1 for requirement details that seeded this document.

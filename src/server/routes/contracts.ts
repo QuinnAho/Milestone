@@ -21,7 +21,7 @@ export function createContractRouter(fileAccess: FileAccess) {
 
   router.get('/current', async (_req, res, next) => {
     try {
-      const content = await fileAccess.readText('ai/AI_TASK_MONITOR_CONTRACT.md');
+      const content = await fileAccess.readText('ai/MILESTONE_CONTRACT.md');
       res.json({ content });
     } catch (error) {
       next(error);
@@ -31,7 +31,7 @@ export function createContractRouter(fileAccess: FileAccess) {
   router.post('/regenerate', async (req, res, next) => {
     try {
       const payload = ContractUpdateSchema.parse(req.body);
-      await fileAccess.writeText('ai/AI_TASK_MONITOR_CONTRACT.md', payload.content);
+      await fileAccess.writeText('ai/MILESTONE_CONTRACT.md', payload.content);
       res.status(200).json({ status: 'updated' });
     } catch (error) {
       if (error instanceof z.ZodError) {

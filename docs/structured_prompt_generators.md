@@ -1,5 +1,5 @@
 <!-- Machine Summary Block -->
-{"file":"docs/structured_prompt_generators.md","purpose":"Explains the structured prompt generator blueprints, CLI workflow, backend routes, and validation steps for AI Task Monitor."}
+{"file":"docs/structured_prompt_generators.md","purpose":"Explains the structured prompt generator blueprints, CLI workflow, backend routes, and validation steps for Milestone."}
 
 # Structured Prompt Generators
 
@@ -58,7 +58,7 @@ npm run generate:prompt -- --blueprint structured_checklist ^
   - `scripts/__tests__/generate_structured_prompt.test.ts` (blueprint rendering, prompt persistence, logging).
   - Updated server integration tests covering `/api/prompts/*` and `/api/features/plan`.
 - Run `npm run schema:lint` to validate the blueprint schema and all blueprint JSON files.
-- Manual sanity check: `npm run generate:prompt -- --blueprint agent_instruction --dry-run --set task_id=TASK_DEMO --set deliverable="..." --set files="ai/AI_TASK_MONITOR_CONTRACT.md"` and confirm the output contains substituted fields and (when logging is enabled) the log entry lands in the active task’s `progress.ndjson`.
+- Manual sanity check: `npm run generate:prompt -- --blueprint agent_instruction --dry-run --set task_id=TASK_DEMO --set deliverable="..." --set files="ai/MILESTONE_CONTRACT.md"` and confirm the output contains substituted fields and (when logging is enabled) the log entry lands in the active task’s `progress.ndjson`.
 
 ## 7. Prompt Editor Flow (Generate vs Save)
 - **Generate from Blueprint:** Invokes `/api/prompts/generate` with `persist=false`, producing a JSON prompt that matches `schemas/prompt_template.json`. The `body` field inside that JSON is natural-language text, but the overall output stays structured so the UI can edit/review it before any disk writes occur.

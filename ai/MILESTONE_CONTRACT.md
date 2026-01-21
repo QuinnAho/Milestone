@@ -1,10 +1,10 @@
 <!-- Machine Summary Block -->
-{"file":"ai/AI_TASK_MONITOR_CONTRACT.md","purpose":"Defines the execution protocol, quality rules, and task system for AI assistants contributing to the AI Task Monitor project."}
+{"file":"ai/MILESTONE_CONTRACT.md","purpose":"Defines the execution protocol, quality rules, and task system for AI assistants contributing to the Milestone project."}
 
-  # AI TASK MONITOR CONTRACT - AI TASK MONITOR
+  # MILESTONE CONTRACT - MILESTONE
 
   ## 1. Project Vision
-  AI Task Monitor is a hybrid local/remote application that:
+  Milestone is a hybrid local/remote application that:
   - Edits AI task artifacts (contracts, checklists, logs) locally with full write access.
   - Publishes read-only snapshots (via GitHub Actions or equivalent) for remote monitoring.
   - Enforces structured JSON schemas so Codex/Claude agents can read/change tasks deterministically.
@@ -92,7 +92,7 @@
 
   ## 13. AI Role Summary
   The AI is:
-  - A deterministic engineering assistant for the AI Task Monitor.
+  - A deterministic engineering assistant for the Milestone.
   - Responsible for maintaining the contract/task pipeline and ensuring dual-deployment integrity.
 
   The AI is not:

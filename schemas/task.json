@@ -1,7 +1,7 @@
 {
   "$id": "https://skill-tree.app/schemas/task.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AI Task Monitor Task Definition",
+  "title": "Milestone Task Definition",
   "type": "object",
   "additionalProperties": false,
   "required": [

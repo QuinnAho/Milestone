@@ -1,5 +1,5 @@
 <!-- Machine Summary Block -->
-{"file":"docs/log_diff_strategy.md","purpose":"Defines how AI Task Monitor captures and stores diff previews inside progress.ndjson entries for accountability."}
+{"file":"docs/log_diff_strategy.md","purpose":"Defines how Milestone captures and stores diff previews inside progress.ndjson entries for accountability."}
 
 # Progress Log Diff Strategy
 
@@ -42,7 +42,7 @@ If a diff cannot be produced (e.g., non-git FS), set `summary` to a deterministi
 - **UI (LogTimeline):** Display `summary` inline with an expand/collapse control to show `patch`. If `commit` exists, link to `git show` instructions.
 
 ## 5. Contract & Templates
-- Update `ai/AI_TASK_MONITOR_CONTRACT.md` to require diff payloads for every progress entry.
+- Update `ai/MILESTONE_CONTRACT.md` to require diff payloads for every progress entry.
 - Mention the diff requirement in task templates and blueprints so future agents follow the same guardrails.
 
 ## 6. Testing & Validation
